@@ -1,14 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-const path = require("path");
 module.exports = {
-  content: [],
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
   },
   plugins: [],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     "@": path.resolve(__dirname, "src"),
+  //   },
+  // },
 };
