@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useAsync } from "react-use";
+
 import {
   BoxGeometry,
   Mesh,
@@ -9,41 +10,34 @@ import {
 } from "three";
 
 export default function useViewer() {
-  const [renderer, setRenderer] = useState<THREE.WebGLRenderer | undefined>();
+  // ----------------------------------------------------------------
+  // ThreeJS 랜더링
+  // ----------------------------------------------------------------
 
-  const initRenderer = () => {
-    const camera = new PerspectiveCamera(
-      70,
-      window.innerWidth / window.innerHeight,
-      0.01,
-      10
-    );
-    camera.position.z = 1;
+  /** 랜더링 초기화 */
+  const renderer = useAsync(
+    async (): Promise<THREE.WebGLRenderer | undefined> => {
+      const camera = new PerspectiveCamera(
+        70,
+        window.innerWidth / window.innerHeight,
+        0.01,
+        10
+      );
+      camera.position.z = 1;
 
-    const scene = new Scene();
-    const geometry = new BoxGeometry(0.2, 0.2, 0.2);
-    const material = new MeshNormalMaterial();
+      const scene = new Scene();
+      const geometry = new BoxGeometry(0.2, 0.2, 0.2);
+      const material = new MeshNormalMaterial();
 
-    const mesh = new Mesh(geometry, material);
-    scene.add(mesh);
+      const mesh = new Mesh(geometry, material);
+      scene.add(mesh);
 
-    const newRenderer = new WebGLRenderer({ antialias: true });
-    newRenderer.setSize(window.innerWidth, window.innerHeight - 200);
-    newRenderer.setAnimationLoop(rotate);
+      const newRenderer = new WebGLRenderer({ antialias: true });
+      newRenderer.setSize(window.innerWidth, window.innerHeight - 200);
 
-    setRenderer(newRenderer);
-
-    function rotate(time: number) {
-      mesh.rotation.x = time / 2000;
-      mesh.rotation.y = time / 1000;
-
-      newRenderer.render(scene, camera);
+      return newRenderer;
     }
-  };
+  );
 
-  useEffect(() => {
-    initRenderer();
-  }, []);
-
-  return { renderer };
+  return { renderer: renderer.value, loading: renderer.loading };
 }
