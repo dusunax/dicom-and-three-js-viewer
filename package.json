@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dicom-parser": "^1.8.21",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.152.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -17,6 +19,7 @@
     "@types/node": "^16.18.34",
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
+    "@types/three": "^0.152.1",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
@@ -39,6 +42,7 @@
     "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
+    "jest-webgl-canvas-mock": "^2.5.0",
     "mini-css-extract-plugin": "^2.4.5",
     "postcss": "^8.4.23",
     "postcss-cli": "^10.1.0",
@@ -103,7 +107,8 @@
       "react-app-polyfill/jsdom"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.ts"
+      "<rootDir>/src/setupTests.ts",
+      "jest-webgl-canvas-mock"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
