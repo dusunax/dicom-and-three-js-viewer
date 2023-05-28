@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-
 import * as dicomParser from "dicom-parser";
 
 import useViewer from "./useViewer";
@@ -80,9 +79,9 @@ export default function useDICOM() {
   };
 
   useEffect(() => {
-    const dicomId = URLSearchParams.get("id");
-    const filePath = `%PUBLIC_URL%/dicom/${dicomId}.dcm`;
-    console.log(loading, dicomId, filePath);
+    // const dicomId = URLSearchParams.get("id");
+    const dicomId = "0000";
+    const filePath = `/dicom/${dicomId}.dcm`;
 
     getDICOMData(filePath).then(async (pixelData) => {
       console.log(pixelData);
@@ -94,7 +93,7 @@ export default function useDICOM() {
         return console.log("canvas 또는 viewer가 존재하지 않음");
 
       container && canvas && container.appendChild(canvas);
-      renderDICOMImage(canvas, pixelData, 800, 600);
+      renderDICOMImage(canvas, pixelData, 2000, 800);
     });
   }, [loading, URLSearchParams.get("dicom-id")]);
 

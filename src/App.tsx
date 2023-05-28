@@ -1,7 +1,7 @@
-import { ErrorBoundary } from "./pages/common/ErrorBoundary";
-import { Router } from "./router/Router";
+import ErrorBoundary from "./pages/common/ErrorBoundary";
+import Router from "./router/Router";
 
-function App() {
+export default function App() {
   return (
     <div id="App">
       <ErrorBoundary>
@@ -10,5 +10,3 @@ function App() {
     </div>
   );
 }
-
-export { App };

@@ -1,8 +1,8 @@
 import { ReactNode, useState } from "react";
 
-import { Error } from "./Error";
+import Error from "./Error";
 
-const ErrorBoundary = ({ children }: { children: ReactNode }) => {
+export default function ErrorBoundary({ children }: { children: ReactNode }) {
   const [hasError, setHasError] = useState(false);
 
   const handleOnError = (error: any) => {
@@ -15,6 +15,4 @@ const ErrorBoundary = ({ children }: { children: ReactNode }) => {
   }
 
   return <div onError={handleOnError}>{children}</div>;
-};
-
-export { ErrorBoundary };
+}

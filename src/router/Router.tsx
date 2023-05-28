@@ -1,12 +1,11 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Loading } from "@/pages/common/Loading";
-import { Error } from "@/pages/common/Error";
+import Loading from "@/pages/common/Loading";
 
 const MainPage = lazy(() => import("../pages/MainPage"));
 
-const Router = () => {
+export default function Router() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
@@ -16,6 +15,4 @@ const Router = () => {
       </Suspense>
     </BrowserRouter>
   );
-};
-
-export { Router };
+}

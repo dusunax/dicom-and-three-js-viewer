@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+
 import useViewer from "./hooks/useViewer";
 import useDICOM from "./hooks/useDicom";
 
-const Viewer = () => {
+export default function Viewer() {
   const { renderer } = useViewer();
   const {} = useDICOM();
 
@@ -30,6 +31,4 @@ const Viewer = () => {
       />
     </div>
   );
-};
-
-export { Viewer };
+}

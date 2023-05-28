@@ -1,6 +1,6 @@
-import { DefaultLayout } from "@/components/layout/DefaultLayout";
+import DefaultLayout from "@/components/layout/DefaultLayout";
 
-const Error = () => {
+export default function Error() {
   return (
     <DefaultLayout>
       <div className="text-center">
@@ -8,6 +8,4 @@ const Error = () => {
       </div>
     </DefaultLayout>
   );
-};
-
-export { Error };
+}

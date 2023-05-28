@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { Viewer } from "../Viewer";
+import Viewer from "../Viewer";
 
 describe("useViewer", () => {
   render(<Viewer />);

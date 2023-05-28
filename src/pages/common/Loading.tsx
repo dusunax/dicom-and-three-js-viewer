@@ -1,6 +1,6 @@
-import { DefaultLayout } from "@/components/layout/DefaultLayout";
+import DefaultLayout from "@/components/layout/DefaultLayout";
 
-const Loading = () => {
+export default function Loading() {
   return (
     <DefaultLayout>
       <div className="text-center">
@@ -8,6 +8,4 @@ const Loading = () => {
       </div>
     </DefaultLayout>
   );
-};
-
-export { Loading };
+}
