@@ -15,7 +15,7 @@ export default function useViewer() {
   // ----------------------------------------------------------------
 
   /** 랜더링 초기화 */
-  const renderer = useAsync(
+  const threeRenderer = useAsync(
     async (): Promise<THREE.WebGLRenderer | undefined> => {
       const camera = new PerspectiveCamera(
         70,
@@ -25,19 +25,12 @@ export default function useViewer() {
       );
       camera.position.z = 1;
 
-      const scene = new Scene();
-      const geometry = new BoxGeometry(0.2, 0.2, 0.2);
-      const material = new MeshNormalMaterial();
-
-      const mesh = new Mesh(geometry, material);
-      scene.add(mesh);
-
       const newRenderer = new WebGLRenderer({ antialias: true });
-      newRenderer.setSize(window.innerWidth, window.innerHeight - 200);
+      newRenderer.setSize(window.innerWidth, window.innerHeight);
 
       return newRenderer;
     }
   );
 
-  return { renderer: renderer.value, loading: renderer.loading };
+  return { renderer: threeRenderer.value, loading: threeRenderer.loading };
 }

@@ -21,6 +21,7 @@ const Viewer = () => {
 
   return (
     <div className="wrapper flex justify-center">
+      <canvas />
       <div
         id="viewer"
         data-testid="viewer"
