@@ -1,4 +1,4 @@
-import Router from "./router/Router";
+import { Router } from "./router/Router";
 
 function App() {
   return (
@@ -8,4 +8,4 @@ function App() {
   );
 }
 
-export default App;
+export { App };

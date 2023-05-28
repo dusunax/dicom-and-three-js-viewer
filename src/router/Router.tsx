@@ -1,14 +1,14 @@
 import MainPage from "../pages/MainPage";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-const App = () => {
+const Router = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 };
 
-export default App;
+export { Router };
