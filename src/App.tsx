@@ -1,9 +1,12 @@
+import { ErrorBoundary } from "./pages/common/ErrorBoundary";
 import { Router } from "./router/Router";
 
 function App() {
   return (
-    <div className="App">
-      <Router />
+    <div id="App">
+      <ErrorBoundary>
+        <Router />
+      </ErrorBoundary>
     </div>
   );
 }
