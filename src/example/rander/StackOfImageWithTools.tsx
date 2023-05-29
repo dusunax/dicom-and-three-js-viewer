@@ -10,7 +10,7 @@ import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
 import Hammer from "hammerjs";
-import SectionWrap from "./common/SectionWrap";
+import SectionWrap from "../components/common/SectionWrap";
 
 // Cornerstone Externals
 cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
