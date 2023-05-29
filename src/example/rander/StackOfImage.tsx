@@ -9,6 +9,7 @@ import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
 import Hammer from "hammerjs";
+import SectionWrap from "./common/SectionWrap";
 
 // Cornerstone Externals
 cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
@@ -76,12 +77,11 @@ export default function StackOfImage() {
   };
 
   return (
-    <>
-      <h2 className="text-2xl">Image Stack</h2>
-
+    <SectionWrap title="Image Stack">
       <div className="button-box flex gap-4 justify-center mb-4">
         {itemSrcArray.map((e, i) => (
           <button
+            key={e}
             className={`w-8 h-8 rounded-full ${
               i === imageIndex ? "bg-cyan-300" : ""
             }`}
@@ -97,6 +97,6 @@ export default function StackOfImage() {
         ref={elementRef}
         className="w-[600px] h-[300px] mx-auto border-cyan-400 border-spacing-2 bg-black"
       ></div>
-    </>
+    </SectionWrap>
   );
 }
