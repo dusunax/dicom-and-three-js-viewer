@@ -14,7 +14,12 @@ export default function StackOfImageWithTools({
 }: {
   useCornerstoneProps: UseCornerstone;
 }) {
-  const { imageIndex, itemSrcArray, setImageIndex } = useCornerstoneProps;
+  const {
+    imageIndex,
+    itemSrcArray,
+    setImageIndex,
+    ITEM_LENGTH: itemLength,
+  } = useCornerstoneProps;
   const elementRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -111,7 +116,7 @@ export default function StackOfImageWithTools({
   };
 
   return (
-    <SectionWrap title="Image Stack With Tools">
+    <SectionWrap title="Image Stack With Tools: Zoom & WWWC">
       <div className="button-box flex gap-4 justify-center mb-4">
         <input
           type="range"

@@ -24,7 +24,7 @@ export default function ExampleComponent() {
       <StackOfImageWithTools useCornerstoneProps={useCornerstoneProps} />
 
       {/* CornerstoneTools: Pan and Scroll */}
-      {/* <StackOfImageWithPanAndScroll /> */}
+      <StackOfImageWithPanAndScroll useCornerstoneProps={useCornerstoneProps} />
     </div>
   );
 }

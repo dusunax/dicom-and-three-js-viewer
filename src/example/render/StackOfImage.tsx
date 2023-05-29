@@ -53,11 +53,11 @@ export default function StackOfImage({
 
   return (
     <SectionWrap title="Image Stack">
-      <div className="button-box flex gap-4 justify-center mb-4">
+      <div className="button-box flex flex-wrap gap-2 justify-center mb-4">
         {itemSrcArray.map((e, i) => (
           <button
             key={e}
-            className={`w-8 h-8 rounded-full ${
+            className={`w-4 h-4 rounded-full text-xs ${
               i === imageIndex ? "bg-cyan-300" : ""
             }`}
             onClick={() => buttonClickHandler(i)}
