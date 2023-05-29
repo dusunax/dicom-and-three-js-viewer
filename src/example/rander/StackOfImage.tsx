@@ -22,7 +22,10 @@ export default function StackOfImage() {
 
   const [imageIndex, setImageIndex] = useState(0);
   const itemLength = 10;
-  const array = new Array(itemLength).fill("");
+  const itemSrcArray = new Array(itemLength).fill(0).map((_, index) => {
+    const fileName = String(index).padStart(4, "0");
+    return `wadouri:/dicom/${fileName}.dcm`;
+  });
 
   useEffect(() => {
     // init
@@ -40,18 +43,7 @@ export default function StackOfImage() {
 
     const imageStack = {
       currentImageIdIndex: imageIndex,
-      imageIds: [
-        `wadouri:/dicom/0000.dcm`,
-        `wadouri:/dicom/0001.dcm`,
-        `wadouri:/dicom/0002.dcm`,
-        `wadouri:/dicom/0003.dcm`,
-        `wadouri:/dicom/0004.dcm`,
-        `wadouri:/dicom/0005.dcm`,
-        `wadouri:/dicom/0006.dcm`,
-        `wadouri:/dicom/0007.dcm`,
-        `wadouri:/dicom/0008.dcm`,
-        `wadouri:/dicom/0009.dcm`,
-      ],
+      imageIds: itemSrcArray,
     };
 
     // load
@@ -85,10 +77,10 @@ export default function StackOfImage() {
 
   return (
     <>
-      <h2 className="text-2xl">Iamge Stack</h2>
+      <h2 className="text-2xl">Image Stack</h2>
 
       <div className="button-box flex gap-4 justify-center mb-4">
-        {array.map((e, i) => (
+        {itemSrcArray.map((e, i) => (
           <button
             className={`w-8 h-8 rounded-full ${
               i === imageIndex ? "bg-cyan-300" : ""
