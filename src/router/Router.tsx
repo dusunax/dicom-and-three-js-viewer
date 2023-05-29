@@ -3,14 +3,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Loading from "@/pages/common/Loading";
 
-const MainPage = lazy(() => import("../pages/MainPage"));
+const ExamplePage = lazy(() => import("../pages/Example"));
+const MainPage = lazy(() => import("../pages/Main"));
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<ExamplePage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

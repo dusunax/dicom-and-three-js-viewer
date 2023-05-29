@@ -9,12 +9,16 @@ module.exports = {
           loader: "file-loader",
         },
       },
-    ],
-    rules: [
       {
         test: /\.svg$/,
         use: "file-loader",
       },
     ],
+  },
+  resolve: {
+    alias: {
+      "@cornerstonejs/dicom-image-loader":
+        "@cornerstonejs/dicom-image-loader/dist/dynamic-import/cornerstoneDICOMImageLoader.min.js",
+    },
   },
 };

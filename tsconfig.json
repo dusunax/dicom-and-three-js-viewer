@@ -20,7 +20,11 @@
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
       "@styles/*": ["src/styles/*"],
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@cornerstonejs/dicom-image-loader": [
+        "node_modules/@cornerstonejs/dicom-image-loader/dist/dynamic-import/cornerstoneDICOMImageLoader.min.js"
+      ],
+      "typeRoots": ["./node_modules/@types"]
     }
   },
   "include": ["src"]

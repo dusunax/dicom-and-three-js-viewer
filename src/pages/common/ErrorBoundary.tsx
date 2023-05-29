@@ -7,7 +7,7 @@ export default function ErrorBoundary({ children }: { children: ReactNode }) {
 
   const handleOnError = (error: any) => {
     setHasError(true);
-    console.error(error);
+    console.log(error.error);
   };
 
   if (hasError) {
