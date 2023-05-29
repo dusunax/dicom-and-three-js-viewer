@@ -1,7 +1,14 @@
+import { useEffect, useState } from "react";
+import addCornerstoneExternals from "./utils/addCornerstoneExternals";
+
 import StackOfImage from "@/example/rander/StackOfImage";
 import StackOfImageWithTools from "./rander/StackOfImageWithTools";
 
 export default function ExampleComponent() {
+  useEffect(() => {
+    addCornerstoneExternals();
+  }, []);
+
   return (
     <div className="text-center">
       <h1 className="mb-10">Cornerstone.js 라이브러리 사용 예시</h1>

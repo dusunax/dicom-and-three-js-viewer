@@ -1,23 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import debounce from "lodash.debounce";
 
-import dicomParser from "dicom-parser";
 import * as cornerstone from "cornerstone-core";
 //@ts-ignore
-import * as cornerstoneMath from "cornerstone-math";
-//@ts-ignore
-import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
-//@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
-import Hammer from "hammerjs";
-import SectionWrap from "../components/common/SectionWrap";
 
-// Cornerstone Externals
-cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
-cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
-cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
-cornerstoneTools.external.cornerstone = cornerstone;
-cornerstoneTools.external.Hammer = Hammer;
+import SectionWrap from "../components/common/SectionWrap";
 
 export default function StackOfImageWithTools() {
   const elementRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +55,7 @@ export default function StackOfImageWithTools() {
     cornerstoneTools.setToolActive("ZoomTouchPinch", {});
 
     const synchronizer = new cornerstoneTools.Synchronizer(
-      "cornerstonenewimage",
+      "stackOfImageWithTools",
       cornerstoneTools.updateImageSynchronizer
     );
 
@@ -143,7 +131,7 @@ export default function StackOfImageWithTools() {
       </div>
 
       <div
-        id="content"
+        id="contentOne"
         ref={elementRef}
         className="w-[600px] h-[300px] mx-auto border-cyan-400 border-spacing-2 bg-black"
       ></div>

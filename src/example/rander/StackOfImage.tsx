@@ -1,22 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-import dicomParser from "dicom-parser";
 import * as cornerstone from "cornerstone-core";
-//@ts-ignore
-import * as cornerstoneMath from "cornerstone-math";
-//@ts-ignore
-import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
-//@ts-ignore
-import * as cornerstoneTools from "cornerstone-tools";
-import Hammer from "hammerjs";
-import SectionWrap from "../components/common/SectionWrap";
 
-// Cornerstone Externals
-cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
-cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
-cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
-cornerstoneTools.external.cornerstone = cornerstone;
-cornerstoneTools.external.Hammer = Hammer;
+import SectionWrap from "../components/common/SectionWrap";
 
 export default function StackOfImage() {
   const elementRef = useRef<HTMLDivElement | null>(null);
@@ -37,11 +23,6 @@ export default function StackOfImage() {
       renderer: "webgl",
     });
 
-    const synchronizer = new cornerstoneTools.Synchronizer(
-      "cornerstonenewimage",
-      cornerstoneTools.updateImageSynchronizer
-    );
-
     const imageStack = {
       currentImageIdIndex: imageIndex,
       imageIds: itemSrcArray,
@@ -52,13 +33,6 @@ export default function StackOfImage() {
       try {
         cornerstone.loadImage(imageStack.imageIds[imageIndex]).then((image) => {
           cornerstone.displayImage(element, image);
-
-          synchronizer.add(element);
-          cornerstoneTools.addStackStateManager(element, [
-            "stack",
-            "crosshairs",
-          ]);
-          cornerstoneTools.addToolState(element, "stack", imageStack);
         });
       } catch (error) {
         console.error("Error loading DICOM image:", error);
