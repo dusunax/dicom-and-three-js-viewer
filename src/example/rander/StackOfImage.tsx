@@ -85,6 +85,8 @@ export default function StackOfImage() {
 
   return (
     <>
+      <h2 className="text-2xl">Iamge Stack</h2>
+
       <div className="button-box flex gap-4 justify-center mb-4">
         {array.map((e, i) => (
           <button
