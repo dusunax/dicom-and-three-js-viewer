@@ -1,4 +1,4 @@
-import StackOfImage from "./rander/StackOfImage";
+import StackOfImage from "@/example/rander/StackOfImage";
 
 export default function ExampleComponent() {
   return (
