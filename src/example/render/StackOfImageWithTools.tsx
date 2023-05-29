@@ -1,21 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import debounce from "lodash.debounce";
 
 import * as cornerstone from "cornerstone-core";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
 
+import { UseCornerstone } from "../hooks/useCornerstone";
+
 import SectionWrap from "../components/common/SectionWrap";
 
-export default function StackOfImageWithTools() {
+export default function StackOfImageWithTools({
+  useCornerstoneProps,
+}: {
+  useCornerstoneProps: UseCornerstone;
+}) {
+  const { imageIndex, itemSrcArray, setImageIndex } = useCornerstoneProps;
   const elementRef = useRef<HTMLDivElement | null>(null);
-
-  const [imageIndex, setImageIndex] = useState(0);
-  const itemLength = 100;
-  const itemSrcArray = new Array(itemLength).fill(0).map((_, index) => {
-    const fileName = String(index).padStart(4, "0");
-    return `wadouri:/dicom/${fileName}.dcm`;
-  });
 
   useEffect(() => {
     // init
@@ -89,6 +89,7 @@ export default function StackOfImageWithTools() {
     };
   }, []);
 
+  // imageIndex 값이 바뀔 때, display 이미지를 load합니다.
   useEffect(() => {
     cornerstone.loadImage(itemSrcArray[imageIndex]).then((image) => {
       const element = elementRef.current;
@@ -100,6 +101,7 @@ export default function StackOfImageWithTools() {
     });
   }, [imageIndex]);
 
+  /** input의 값이 변할 때, 0 ~ itemLength 인덱스의 이미지를 출력합니다. */
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const numIndex = Number(e.target.value);
     if (numIndex >= 0 && numIndex < itemLength) {

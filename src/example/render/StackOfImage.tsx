@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import * as cornerstone from "cornerstone-core";
 
+import { UseCornerstone } from "../hooks/useCornerstone";
+
 import SectionWrap from "../components/common/SectionWrap";
 
-export default function StackOfImage() {
+export default function StackOfImage({
+  useCornerstoneProps,
+}: {
+  useCornerstoneProps: UseCornerstone;
+}) {
+  const { imageIndex, itemSrcArray, setImageIndex } = useCornerstoneProps;
   const elementRef = useRef<HTMLDivElement | null>(null);
-
-  const [imageIndex, setImageIndex] = useState(0);
-  const itemLength = 10;
-  const itemSrcArray = new Array(itemLength).fill(0).map((_, index) => {
-    const fileName = String(index).padStart(4, "0");
-    return `wadouri:/dicom/${fileName}.dcm`;
-  });
 
   useEffect(() => {
     // init
@@ -31,7 +31,7 @@ export default function StackOfImage() {
     // load
     const loadImage = async (index: number) => {
       try {
-        cornerstone.loadImage(imageStack.imageIds[imageIndex]).then((image) => {
+        cornerstone.loadImage(imageStack.imageIds[index]).then((image) => {
           cornerstone.displayImage(element, image);
         });
       } catch (error) {
@@ -39,13 +39,14 @@ export default function StackOfImage() {
       }
     };
 
-    loadImage(0);
+    loadImage(imageIndex);
 
     return () => {
       cornerstone.disable(element);
     };
   }, [imageIndex]);
 
+  // 핸들러
   const buttonClickHandler = (index: number) => {
     setImageIndex(index);
   };
