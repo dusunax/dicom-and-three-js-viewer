@@ -4,6 +4,7 @@ export interface UseCornerstone {
   imageIndex: number;
   setImageIndex: React.Dispatch<React.SetStateAction<number>>;
   itemSrcArray: string[];
+  itemLength: number;
 }
 
 export default function useCornerstone() {
@@ -14,5 +15,5 @@ export default function useCornerstone() {
     return `wadouri:/dicom/${fileName}.dcm`;
   });
 
-  return { imageIndex, setImageIndex, itemSrcArray };
+  return { imageIndex, setImageIndex, itemSrcArray, itemLength };
 }
