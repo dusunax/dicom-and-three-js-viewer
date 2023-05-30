@@ -2,9 +2,8 @@ import { useEffect, useRef } from "react";
 
 import * as cornerstone from "cornerstone-core";
 
-import { UseCornerstone } from "../hooks/useCornerstone";
-
 import SectionWrap from "../components/common/SectionWrap";
+import { UseCornerstone } from "../models/cornerstone";
 
 export default function StackOfImage({
   useCornerstoneProps,

@@ -5,7 +5,7 @@ import * as cornerstone from "cornerstone-core";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
 
-import { UseCornerstone } from "../hooks/useCornerstone";
+import { UseCornerstone } from "../models/cornerstone";
 
 import SectionWrap from "../components/common/SectionWrap";
 
