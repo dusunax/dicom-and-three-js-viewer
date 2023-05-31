@@ -9,18 +9,35 @@ import { UseCornerstone } from "../models/cornerstone";
 
 import SectionWrap from "../components/common/SectionWrap";
 
-export default function StackOfImageWithTools({
+export default function StackOfImageWithChangeIndex({
   useCornerstoneProps,
 }: {
   useCornerstoneProps: UseCornerstone;
 }) {
-  const {
-    imageIndex,
-    itemSrcArray,
-    setImageIndex,
-    ITEM_LENGTH: itemLength,
-  } = useCornerstoneProps;
+  const { imageIndex, itemSrcArray, setImageIndex, ITEM_LENGTH } =
+    useCornerstoneProps;
   const elementRef = useRef<HTMLDivElement | null>(null);
+
+  // 마우스 휠 이벤트 핸들러 함수
+  const handleMouseWheel = (
+    event: globalThis.WheelEvent,
+    element: HTMLDivElement
+  ) => {
+    event.preventDefault();
+
+    const delta = Math.max(-1, Math.min(1, event.deltaY)); // 휠 움직임 방향 결정
+    const move = delta * 1; // 이동 거리 결정
+
+    setImageIndex((prev) => {
+      const newIndex = prev + move;
+
+      if (newIndex >= 0 && newIndex < ITEM_LENGTH) {
+        return newIndex;
+      } else {
+        return prev;
+      }
+    });
+  };
 
   useEffect(() => {
     // init
@@ -34,30 +51,6 @@ export default function StackOfImageWithTools({
     cornerstoneTools.init({
       globalToolSyncEnabled: true,
     });
-
-    // Grab Tool Classes
-    const WwwcTool = cornerstoneTools.WwwcTool;
-    const PanTool = cornerstoneTools.PanTool;
-    const PanMultiTouchTool = cornerstoneTools.PanMultiTouchTool;
-    const ZoomTool = cornerstoneTools.ZoomTool;
-    const ZoomTouchPinchTool = cornerstoneTools.ZoomTouchPinchTool;
-    const ZoomMouseWheelTool = cornerstoneTools.ZoomMouseWheelTool;
-
-    // Add them
-    cornerstoneTools.addTool(PanTool);
-    cornerstoneTools.addTool(ZoomTool);
-    cornerstoneTools.addTool(WwwcTool);
-    cornerstoneTools.addTool(PanMultiTouchTool);
-    cornerstoneTools.addTool(ZoomTouchPinchTool);
-    cornerstoneTools.addTool(ZoomMouseWheelTool);
-
-    // Set tool modes
-    cornerstoneTools.setToolActive("Pan", { mouseButtonMask: 4 }); // Middle
-    cornerstoneTools.setToolActive("Zoom", { mouseButtonMask: 2 }); // Right
-    cornerstoneTools.setToolActive("Wwwc", { mouseButtonMask: 1 }); // Left & Touch
-    cornerstoneTools.setToolActive("PanMultiTouch", {});
-    cornerstoneTools.setToolActive("ZoomMouseWheel", {});
-    cornerstoneTools.setToolActive("ZoomTouchPinch", {});
 
     const synchronizer = new cornerstoneTools.Synchronizer(
       "stackOfImageWithTools",
@@ -89,9 +82,26 @@ export default function StackOfImageWithTools({
 
     loadImage();
 
+    // 스크롤 시 index 변화
+    element.addEventListener(
+      "wheel",
+      (event: globalThis.WheelEvent) =>
+        element && handleMouseWheel(event, element)
+    );
+
     return () => {
       cornerstone.disable(element);
+
+      // 컴포넌트 unmount시, 이벤트 리스너 제거
+      element?.removeEventListener(
+        "wheel",
+        (event) => element && handleMouseWheel(event, element)
+      );
     };
+  }, []);
+
+  useEffect(() => {
+    // 이벤트 리스너 등록
   }, []);
 
   // imageIndex 값이 바뀔 때, display 이미지를 load합니다.
@@ -104,19 +114,21 @@ export default function StackOfImageWithTools({
         cornerstone.displayImage(element, image);
       }, 100)();
     });
+    cornerstone.loadImage(itemSrcArray[imageIndex]);
   }, [imageIndex]);
 
   /** input의 값이 변할 때, 0 ~ itemLength 인덱스의 이미지를 출력합니다. */
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const numIndex = Number(e.target.value);
-    if (numIndex >= 0 && numIndex < itemLength) {
+
+    if (numIndex >= 0 && numIndex < ITEM_LENGTH) {
       setImageIndex(numIndex);
       cornerstone.loadImage(itemSrcArray[imageIndex]);
     }
   };
 
   return (
-    <SectionWrap title="Image Stack With Tools: Zoom & WWWC">
+    <SectionWrap title="Image Stack: Change input values or scroll for Rotate">
       <div className="button-box flex gap-4 justify-center mb-4">
         <input
           type="range"
@@ -126,7 +138,7 @@ export default function StackOfImageWithTools({
           value={imageIndex}
           onChange={(e) => inputChangeHandler(e)}
           min={0}
-          max={100}
+          max={ITEM_LENGTH}
         />
 
         <input

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import addCornerstoneExternals from "./utils/addCornerstoneExternals";
 
 import StackOfImage from "@/example/render/StackOfImage";
-import StackOfImageWithTools from "./render/StackOfImageWithTools";
-import StackOfImageWithPanAndScroll from "./render/StackOfImageWithPanAndScroll";
+import StackOfImageWithChangeIndex from "./render/StackOfImageWithChangeIndex";
 import useCornerstone from "./hooks/useCornerstone";
+import StackOfImageWithTools from "./render/StackOfImageWithToolsBox";
 
 export default function ExampleComponent() {
   const useCornerstoneProps = useCornerstone();
@@ -15,16 +15,16 @@ export default function ExampleComponent() {
 
   return (
     <div className="text-center">
-      <h1 className="mb-10">Cornerstone.js 라이브러리 사용 예시</h1>
+      <h1 className="mb-10 py-2">with Cornerstone.js</h1>
 
       {/* ImageStack: 기본 출력 */}
       {/* <StackOfImage useCornerstoneProps={useCornerstoneProps} /> */}
 
-      {/* CornerstoneTools: 기본 도구 */}
-      {/* <StackOfImageWithTools useCornerstoneProps={useCornerstoneProps} /> */}
+      {/* ImageStack: 이미지 index 변경 */}
+      <StackOfImageWithChangeIndex useCornerstoneProps={useCornerstoneProps} />
 
       {/* CornerstoneTools: Pan and Scroll */}
-      <StackOfImageWithPanAndScroll useCornerstoneProps={useCornerstoneProps} />
+      <StackOfImageWithTools useCornerstoneProps={useCornerstoneProps} />
     </div>
   );
 }
