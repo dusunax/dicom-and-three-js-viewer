@@ -4,11 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-
-# npm run eject
-/config
-/scripts
-
 # testing
 /coverage
 
