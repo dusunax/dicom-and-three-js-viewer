@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import * as cornerstone from "cornerstone-core";
 
@@ -10,8 +10,11 @@ export default function StackOfImage({
 }: {
   useCornerstoneProps: UseCornerstone;
 }) {
-  const { imageIndex, itemSrcArray, setImageIndex } = useCornerstoneProps;
+  const { itemSrcArray } = useCornerstoneProps;
   const elementRef = useRef<HTMLDivElement | null>(null);
+
+  // 컴포넌트 UI에 사용할 state
+  const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     // init

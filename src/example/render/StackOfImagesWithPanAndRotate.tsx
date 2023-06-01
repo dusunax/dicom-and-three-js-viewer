@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import * as cornerstone from "cornerstone-core";
 //@ts-ignore
@@ -9,44 +9,13 @@ import { Layer, UseCornerstone } from "../models/cornerstone";
 import SectionWrap from "../components/common/SectionWrap";
 
 // ToolBox
-export default function StackOfImageWithToolsBox({
+export default function StackOfImageWithPanAndRotate({
   useCornerstoneProps,
 }: {
   useCornerstoneProps: UseCornerstone;
 }) {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const {
-    imageIndex,
-    itemSrcArray,
-    setImageIndex,
-    ITEM_LENGTH,
-    colorMapList,
-    leftMouseToolChain,
-    itemLayers,
-  } = useCornerstoneProps;
-
-  // 툴박스 컴포넌트 UI에 사용할 state
-  const [leftIndex, setLeftIndex] = useState(0);
-
-  /** 이미지 index 설정 */
-  const updateTheImages = useCallback(
-    async (index: number) => {
-      const images = await loadImages(itemLayers[0]);
-
-      images?.forEach((image, index) => {
-        if (elementRef.current === null)
-          throw new Error("ref가 존재하지 않습니다.");
-
-        cornerstone.setLayerImage(
-          elementRef.current && elementRef.current,
-          image,
-          itemLayers[index].layerId
-        );
-        cornerstone.updateImage(elementRef.current);
-      });
-    },
-    [elementRef]
-  );
+  const { leftMouseToolChain, itemLayers } = useCornerstoneProps;
 
   // 도구 설정
   const setToolsByName = (index: number) => {
@@ -89,8 +58,6 @@ export default function StackOfImageWithToolsBox({
         cornerstone.updateImage(elementRef.current);
       }
     });
-
-    setToolsByName(0);
   }
 
   /** 이미지를 비동기로 load & cache합니다. */
@@ -139,6 +106,7 @@ export default function StackOfImageWithToolsBox({
     });
 
     init();
+    setToolsByName(0);
 
     // 이벤트 리스너 등록
     elementRef.current.addEventListener(
@@ -157,31 +125,15 @@ export default function StackOfImageWithToolsBox({
     };
   }, []);
 
-  // Tool 변경
-  useEffect(() => {
-    setToolsByName(leftIndex);
-  }, [leftIndex]);
-
   return (
     <>
       <SectionWrap title="Image Stack With Tools: Drag to Pan & Scroll to Rotate">
         <ul className="my-2 flex gap-2 justify-center">
-          {leftMouseToolChain.map((tool, idx) => {
-            const isActive =
-              leftIndex === idx ? "bg-slate-400 text-slate-50" : "";
-
-            if (tool.name === "Pan") {
-              return (
-                <li
-                  className={`p-2 border-2 cursor-pointer hover:bg-slate-400 hover:text-slate-50 ${isActive}`}
-                  key={tool.name}
-                  onClick={() => setLeftIndex(idx)}
-                >
-                  {tool.name}
-                </li>
-              );
-            }
-          })}
+          <li
+            className={`p-2 border-2 cursor-pointer hover:bg-slate-400 hover:text-slate-50 bg-slate-400 text-slate-50`}
+          >
+            {leftMouseToolChain[0].name}
+          </li>
         </ul>
 
         <div

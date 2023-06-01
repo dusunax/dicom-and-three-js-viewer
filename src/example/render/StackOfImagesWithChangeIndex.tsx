@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import debounce from "lodash.debounce";
 
 import * as cornerstone from "cornerstone-core";
@@ -14,9 +14,11 @@ export default function StackOfImageWithChangeIndex({
 }: {
   useCornerstoneProps: UseCornerstone;
 }) {
-  const { imageIndex, itemSrcArray, setImageIndex, ITEM_LENGTH } =
-    useCornerstoneProps;
+  const { itemSrcArray, ITEM_LENGTH } = useCornerstoneProps;
   const elementRef = useRef<HTMLDivElement | null>(null);
+
+  // 컴포넌트 UI에 사용할 state
+  const [imageIndex, setImageIndex] = useState(0);
 
   // 마우스 휠 이벤트 핸들러 함수
   const handleMouseWheel = (
@@ -114,7 +116,6 @@ export default function StackOfImageWithChangeIndex({
         cornerstone.displayImage(element, image);
       }, 100)();
     });
-    cornerstone.loadImage(itemSrcArray[imageIndex]);
   }, [imageIndex]);
 
   /** input의 값이 변할 때, 0 ~ itemLength 인덱스의 이미지를 출력합니다. */
@@ -142,6 +143,7 @@ export default function StackOfImageWithChangeIndex({
         />
 
         <input
+          id="index-number-1"
           type="number"
           value={imageIndex}
           onChange={inputChangeHandler}
