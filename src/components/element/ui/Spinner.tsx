@@ -12,11 +12,11 @@ export default function Spinner() {
           cx="50"
           cy="50"
           r="35"
-          stroke-width="8"
+          strokeWidth="8"
           stroke="#1e40af"
-          stroke-dasharray="54.97787143782138 54.97787143782138"
+          strokeDasharray="54.97787143782138 54.97787143782138"
           fill="none"
-          stroke-linecap="round"
+          strokeLinecap="round"
         >
           <animateTransform
             attributeName="transform"

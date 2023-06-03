@@ -41,13 +41,17 @@ export default function StackOfImagesWithToolsBox({
   };
 
   /** 초기화 */
-  async function initImages() {
-    cornerstoneTools.init({
-      globalToolSyncEnabled: true,
+  async function initImages(element: HTMLDivElement) {
+    cornerstone.disable(element);
+    cornerstone.enable(element, {
+      renderer: "webgl",
     });
 
-    const image = await loadImageOption(itemLayers[0]);
+    cornerstoneTools.init();
+    const toolStateManager =
+      cornerstoneTools.getElementToolStateManager(element);
 
+    const image = await loadImageOption(itemLayers[0]);
     image?.forEach((img, index) => {
       if (elementRef.current === null) return;
       const layer = itemLayers[index];
@@ -63,6 +67,12 @@ export default function StackOfImagesWithToolsBox({
         cornerstone.updateImage(elementRef.current);
       }
     });
+
+    setToolsByName(0);
+
+    console.log(toolStateManager);
+    console.log(toolStateManager.clear(element));
+    // console.log(toolStateManager.clearImageIdToolState(element));
   }
 
   /** 이미지를 비동기로 load & cache합니다. */
@@ -105,30 +115,25 @@ export default function StackOfImagesWithToolsBox({
 
   // mount시, rerender를 enable합니다.
   useEffect(() => {
-    if (elementRef.current === null) {
+    const element = elementRef.current;
+    if (!element) {
       return;
     }
 
-    cornerstone.enable(elementRef.current, {
-      renderer: "webgl",
-    });
-
-    initImages();
-    setToolsByName(0);
+    initImages(element);
 
     // 이벤트 리스너 등록
-    elementRef.current.addEventListener(
+    element.addEventListener(
       "wheel",
       (event: globalThis.WheelEvent) =>
-        elementRef.current && handleMouseWheel(event, elementRef.current)
+        element && handleMouseWheel(event, element)
     );
 
     return () => {
       // 컴포넌트 unmount시, 이벤트 리스너 제거
-      elementRef.current?.removeEventListener(
+      element?.removeEventListener(
         "wheel",
-        (event) =>
-          elementRef.current && handleMouseWheel(event, elementRef.current)
+        (event) => element && handleMouseWheel(event, element)
       );
     };
   }, []);

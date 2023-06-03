@@ -46,13 +46,12 @@ export default function StackOfImagesWithChangeIndex({
     const element = elementRef.current;
     if (!element) throw new Error("ref가 존재하지 않습니다.");
 
+    cornerstone.disable(element);
     cornerstone.enable(element, {
       renderer: "webgl",
     });
 
-    cornerstoneTools.init({
-      globalToolSyncEnabled: true,
-    });
+    cornerstoneTools.init();
 
     const synchronizer = new cornerstoneTools.Synchronizer(
       "stackOfImageWithTools",
