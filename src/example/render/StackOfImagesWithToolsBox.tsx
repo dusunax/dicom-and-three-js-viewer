@@ -10,7 +10,7 @@ import SectionWrap from "../components/common/SectionWrap";
 import debounce from "lodash.debounce";
 
 // ToolBox
-export default function StackOfImageWithToolsBox({
+export default function StackOfImagesWithToolsBox({
   useCornerstoneProps,
 }: {
   useCornerstoneProps: UseCornerstone;
@@ -20,13 +20,15 @@ export default function StackOfImageWithToolsBox({
     itemSrcArray,
     ITEM_LENGTH,
     colorMapList,
-    leftMouseToolChain,
+    LEFT_MOUSE_TOOLS: leftMouseToolChain,
     itemLayers,
   } = useCornerstoneProps;
 
   // 툴박스 컴포넌트 UI에 사용할 state
   const [leftIndex, setLeftIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
+  const [imageMetadata, setImageMetadata] = useState();
+  const toolRef = useRef(null);
 
   // 도구 설정
   const setToolsByName = (index: number) => {
@@ -59,6 +61,8 @@ export default function StackOfImageWithToolsBox({
       const layer = itemLayers[index];
 
       if (layer && layer.options) {
+        console.log(image);
+
         const layerId = cornerstone.addLayer(
           elementRef.current,
           image,
@@ -149,7 +153,6 @@ export default function StackOfImageWithToolsBox({
             const isActive =
               leftIndex === idx ? "bg-slate-400 text-slate-50" : "";
 
-            // if (tool.name === "Pan") {
             return (
               <li
                 className={`p-2 border-2 cursor-pointer hover:bg-slate-400 hover:text-slate-50 ${isActive}`}
@@ -159,7 +162,6 @@ export default function StackOfImageWithToolsBox({
                 {tool.name}
               </li>
             );
-            // }
           })}
         </ul>
 

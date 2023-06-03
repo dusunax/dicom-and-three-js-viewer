@@ -3,6 +3,7 @@ import { useState } from "react";
 import * as cornerstone from "cornerstone-core";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
+import { ExampleOption } from "../models/cornerstone";
 
 export default function useCornerstone() {
   const [imageIndex, setImageIndex] = useState(0);
@@ -20,22 +21,88 @@ export default function useCornerstone() {
   );
 
   /** [0: Pan, 1: Magnify, 2: Angle, 3: Wwwc, 4: Eraser] */
-  const leftMouseToolChain = [
-    { name: "Pan", func: cornerstoneTools.PanTool, config: {} },
-    { name: "Zoom", func: cornerstoneTools.ZoomTool, config: {} },
-    { name: "Wwwc", func: cornerstoneTools.WwwcTool, config: {} },
-    { name: "Magnify", func: cornerstoneTools.MagnifyTool, config: {} },
-    { name: "Angle", func: cornerstoneTools.AngleTool, config: {} },
-    { name: "Eraser", func: cornerstoneTools.EraserTool, config: {} },
+  const LEFT_MOUSE_TOOLS = [
+    {
+      name: "Pan",
+      func: cornerstoneTools.PanTool,
+      subTools: [
+        {
+          name: "PanMultiTouch",
+          func: cornerstoneTools.PanMultiTouchTool,
+          config: {},
+        },
+      ],
+      config: {},
+    },
+    {
+      name: "Zoom",
+      func: cornerstoneTools.ZoomTool,
+      subTools: [
+        {
+          name: "ZoomTouchPinch",
+          func: cornerstoneTools.ZoomTouchPinchTool,
+          config: {},
+        },
+        {
+          name: "ZoomMouseWheel",
+          func: cornerstoneTools.ZoomMouseWheelTool,
+          config: {},
+        },
+      ],
+      config: {},
+    },
+    { name: "Wwwc", func: cornerstoneTools.WwwcTool, subTools: [], config: {} },
+    {
+      name: "Magnify",
+      func: cornerstoneTools.MagnifyTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "Angle",
+      func: cornerstoneTools.AngleTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "Eraser",
+      func: cornerstoneTools.EraserTool,
+      subTools: [],
+      config: {},
+    },
   ];
 
-  // Grab Tool Classes
-  const WwwcTool = cornerstoneTools.WwwcTool;
-  const PanTool = cornerstoneTools.PanTool;
-  const PanMultiTouchTool = cornerstoneTools.PanMultiTouchTool;
-  const ZoomTool = cornerstoneTools.ZoomTool;
-  const ZoomTouchPinchTool = cornerstoneTools.ZoomTouchPinchTool;
-  const ZoomMouseWheelTool = cornerstoneTools.ZoomMouseWheelTool;
+  // example 옵션 리스트
+  const EXAMPLE_OPTION: ExampleOption[] = [
+    {
+      name: "Stack of Image",
+      description: {
+        en: "ImageStack: basic rendering",
+        kor: "ImageStack: 기본 출력",
+      },
+    },
+    {
+      name: "Stack of Image and changing indexes",
+      description: {
+        en: "ImageStack: change image stack's indexes",
+        kor: "ImageStack: 이미지 index 변경",
+      },
+    },
+    {
+      name: "Stack of Image with Pan & Rotate",
+      description: {
+        en: "CornerstoneTools: Pan to Drag and Scroll to wheel",
+        kor: "CornerstoneTools: Pan(왼쪽), Rotate(휠)",
+      },
+    },
+    {
+      name: "Stack of Image with Tools box",
+      description: {
+        en: "CornerstoneTools: Tools box",
+        kor: "CornerstoneTools: 툴박스",
+      },
+    },
+  ];
 
   // 이미지 레이어 (프리뷰) 정보
   const itemLayers = [
@@ -57,8 +124,12 @@ export default function useCornerstone() {
     imageIndex,
     setImageIndex,
     itemSrcArray,
+
+    // constants
     ITEM_LENGTH,
-    leftMouseToolChain,
+    LEFT_MOUSE_TOOLS,
+    EXAMPLE_OPTION,
+
     colorMapList,
     itemLayers,
   };

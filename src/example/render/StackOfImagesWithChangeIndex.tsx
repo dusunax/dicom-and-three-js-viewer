@@ -9,7 +9,7 @@ import { UseCornerstone } from "../models/cornerstone";
 
 import SectionWrap from "../components/common/SectionWrap";
 
-export default function StackOfImageWithChangeIndex({
+export default function StackOfImagesWithChangeIndex({
   useCornerstoneProps,
 }: {
   useCornerstoneProps: UseCornerstone;
@@ -100,10 +100,6 @@ export default function StackOfImageWithChangeIndex({
         (event) => element && handleMouseWheel(event, element)
       );
     };
-  }, []);
-
-  useEffect(() => {
-    // 이벤트 리스너 등록
   }, []);
 
   // imageIndex 값이 바뀔 때, display 이미지를 load합니다.

@@ -5,7 +5,7 @@ import * as cornerstone from "cornerstone-core";
 import SectionWrap from "../components/common/SectionWrap";
 import { UseCornerstone } from "../models/cornerstone";
 
-export default function StackOfImage({
+export default function StackOfImages({
   useCornerstoneProps,
 }: {
   useCornerstoneProps: UseCornerstone;

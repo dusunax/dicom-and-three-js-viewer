@@ -3,9 +3,10 @@ export interface UseCornerstone {
   setImageIndex: React.Dispatch<React.SetStateAction<number>>;
   itemSrcArray: string[];
   ITEM_LENGTH: number;
-  leftMouseToolChain: {
+  LEFT_MOUSE_TOOLS: {
     name: string;
     func: any;
+    subTools: any[];
     config: {};
   }[];
   colorMapList: {
@@ -25,5 +26,13 @@ export interface Layer {
     viewport: {
       colormap: string;
     };
+  };
+}
+
+export interface ExampleOption {
+  name: string;
+  description: {
+    en: string;
+    kor: string;
   };
 }

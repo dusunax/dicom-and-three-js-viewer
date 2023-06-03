@@ -9,13 +9,14 @@ import { Layer, UseCornerstone } from "../models/cornerstone";
 import SectionWrap from "../components/common/SectionWrap";
 
 // ToolBox
-export default function StackOfImageWithPanAndRotate({
+export default function StackOfImagesWithPanAndRotate({
   useCornerstoneProps,
 }: {
   useCornerstoneProps: UseCornerstone;
 }) {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const { leftMouseToolChain, itemLayers } = useCornerstoneProps;
+  const { LEFT_MOUSE_TOOLS: leftMouseToolChain, itemLayers } =
+    useCornerstoneProps;
 
   // 도구 설정
   const setToolsByName = (index: number) => {
