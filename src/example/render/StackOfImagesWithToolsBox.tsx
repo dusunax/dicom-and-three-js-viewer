@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAsyncFn } from "react-use";
 
 import * as cornerstone from "cornerstone-core";
 //@ts-ignore
@@ -7,7 +8,7 @@ import * as cornerstoneTools from "cornerstone-tools";
 import { Layer, UseCornerstone } from "../models/cornerstone";
 
 import SectionWrap from "../components/common/SectionWrap";
-import debounce from "lodash.debounce";
+import Spinner from "@/components/element/ui/Spinner";
 
 // ToolBox
 export default function StackOfImagesWithToolsBox({
@@ -16,19 +17,11 @@ export default function StackOfImagesWithToolsBox({
   useCornerstoneProps: UseCornerstone;
 }) {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const {
-    itemSrcArray,
-    ITEM_LENGTH,
-    colorMapList,
-    LEFT_MOUSE_TOOLS: leftMouseToolChain,
-    itemLayers,
-  } = useCornerstoneProps;
+  const { LEFT_MOUSE_TOOLS: leftMouseToolChain, itemLayers } =
+    useCornerstoneProps;
 
   // 툴박스 컴포넌트 UI에 사용할 state
   const [leftIndex, setLeftIndex] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
-  const [imageMetadata, setImageMetadata] = useState();
-  const toolRef = useRef(null);
 
   // 도구 설정
   const setToolsByName = (index: number) => {
@@ -48,24 +41,21 @@ export default function StackOfImagesWithToolsBox({
   };
 
   /** 초기화 */
-  async function init() {
+  async function initImages() {
     cornerstoneTools.init({
       globalToolSyncEnabled: true,
     });
 
-    const images = await loadImages(itemLayers[0]);
+    const image = await loadImageOption(itemLayers[0]);
 
-    images?.forEach((image, index) => {
+    image?.forEach((img, index) => {
       if (elementRef.current === null) return;
-
       const layer = itemLayers[index];
 
       if (layer && layer.options) {
-        console.log(image);
-
         const layerId = cornerstone.addLayer(
           elementRef.current,
-          image,
+          img,
           layer.options
         );
         itemLayers[index].layerId = layerId;
@@ -76,21 +66,24 @@ export default function StackOfImagesWithToolsBox({
   }
 
   /** 이미지를 비동기로 load & cache합니다. */
-  async function loadImages(layer: Layer) {
-    const promises: Promise<cornerstone.Image>[] = [];
+  const [loadImageOptionState, loadImageOption] = useAsyncFn(
+    async (layer: Layer) => {
+      const promises: Promise<cornerstone.Image>[] = [];
 
-    try {
-      if (layer.options.visible) {
-        layer.images.map((image) => {
-          promises.push(cornerstone.loadAndCacheImage(image));
-        });
+      try {
+        if (layer.options.visible) {
+          layer.images.forEach((image) => {
+            promises.push(cornerstone.loadAndCacheImage(image));
+          });
+        }
+        return await Promise.all(promises);
+      } catch (e) {
+        console.error("Error loading images:", e);
+        throw e;
       }
-      return await Promise.all(promises);
-    } catch (e) {
-      console.error("Error loading images:", e);
-      throw e;
-    }
-  }
+    },
+    []
+  );
 
   // 마우스 휠 이벤트 핸들러 함수
   const handleMouseWheel = (
@@ -120,7 +113,7 @@ export default function StackOfImagesWithToolsBox({
       renderer: "webgl",
     });
 
-    init();
+    initImages();
     setToolsByName(0);
 
     // 이벤트 리스너 등록
@@ -170,6 +163,13 @@ export default function StackOfImagesWithToolsBox({
           ref={elementRef}
           className="w-[600px] h-[300px] mx-auto border-cyan-400 border-spacing-2 bg-black"
         ></div>
+
+        {loadImageOptionState.loading && (
+          <div className="my-4 flex items-center justify-center">
+            loading...
+            <Spinner />
+          </div>
+        )}
       </SectionWrap>
     </>
   );
