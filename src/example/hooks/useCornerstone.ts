@@ -35,6 +35,62 @@ export default function useCornerstone() {
       config: {},
     },
     {
+      name: "Magnify",
+      func: cornerstoneTools.MagnifyTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "Angle",
+      func: cornerstoneTools.AngleTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "Probe",
+      func: cornerstoneTools.ProbeTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "ArrowAnnotate",
+      func: cornerstoneTools.ArrowAnnotateTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "TextMarker",
+      func: cornerstoneTools.TextMarkerTool,
+      subTools: [],
+      config: {
+        markers: ["F5", "F4", "F3", "F2", "F1"],
+        current: "F5",
+        ascending: true,
+        loop: true,
+      },
+    },
+    {
+      name: "FreehandRoi",
+      func: cornerstoneTools.FreehandRoiTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "Length",
+      func: cornerstoneTools.LengthTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "Eraser",
+      func: cornerstoneTools.EraserTool,
+      subTools: [],
+      config: {},
+    },
+  ];
+
+  const RIGHT_MOUSE_TOOLS = [
+    {
       name: "Zoom",
       func: cornerstoneTools.ZoomTool,
       subTools: [
@@ -52,25 +108,21 @@ export default function useCornerstone() {
       config: {},
     },
     { name: "Wwwc", func: cornerstoneTools.WwwcTool, subTools: [], config: {} },
+  ];
+
+  const OVERLAY_TOOLS = [
     {
-      name: "Magnify",
-      func: cornerstoneTools.MagnifyTool,
-      subTools: [],
-      config: {},
-    },
-    {
-      name: "Angle",
-      func: cornerstoneTools.AngleTool,
-      subTools: [],
-      config: {},
-    },
-    {
-      name: "Eraser",
-      func: cornerstoneTools.EraserTool,
+      name: "ScaleOverlay",
+      func: cornerstoneTools.ScaleOverlayTool,
       subTools: [],
       config: {},
     },
   ];
+
+  // const ScaleOverlayTool = cornerstoneTools.ScaleOverlayTool;
+
+  // cornerstoneTools.addTool(ScaleOverlayTool)
+  // cornerstoneTools.setToolActive('ScaleOverlay', { mouseButtonMask: 1 })
 
   // example 옵션 리스트
   const EXAMPLE_OPTION: ExampleOption[] = [
@@ -127,8 +179,10 @@ export default function useCornerstone() {
 
     // constants
     ITEM_LENGTH,
-    LEFT_MOUSE_TOOLS,
     EXAMPLE_OPTION,
+    LEFT_MOUSE_TOOLS,
+    RIGHT_MOUSE_TOOLS,
+    OVERLAY_TOOLS,
 
     colorMapList,
     itemLayers,

@@ -8,7 +8,7 @@ export default function SectionWrap({
   title: string;
 }) {
   return (
-    <section className="my-20">
+    <section className="py-20">
       <h2 className="text-2xl">{title}</h2>
       {children}
     </section>

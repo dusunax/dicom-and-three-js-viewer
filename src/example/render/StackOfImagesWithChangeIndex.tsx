@@ -5,16 +5,11 @@ import * as cornerstone from "cornerstone-core";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
 
-import { UseCornerstone } from "../models/cornerstone";
-
 import SectionWrap from "../components/common/SectionWrap";
+import useCornerstone from "../hooks/useCornerstone";
 
-export default function StackOfImagesWithChangeIndex({
-  useCornerstoneProps,
-}: {
-  useCornerstoneProps: UseCornerstone;
-}) {
-  const { itemSrcArray, ITEM_LENGTH } = useCornerstoneProps;
+export default function StackOfImagesWithChangeIndex() {
+  const { itemSrcArray, ITEM_LENGTH } = useCornerstone();
   const elementRef = useRef<HTMLDivElement | null>(null);
 
   // 컴포넌트 UI에 사용할 state

@@ -4,32 +4,28 @@ import * as cornerstone from "cornerstone-core";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
 
-import { Layer, UseCornerstone } from "../models/cornerstone";
+import { Layer } from "../models/cornerstone";
 
 import SectionWrap from "../components/common/SectionWrap";
+import useCornerstone from "../hooks/useCornerstone";
 
 // ToolBox
-export default function StackOfImagesWithPanAndRotate({
-  useCornerstoneProps,
-}: {
-  useCornerstoneProps: UseCornerstone;
-}) {
+export default function StackOfImagesWithPanAndRotate() {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const { LEFT_MOUSE_TOOLS: leftMouseToolChain, itemLayers } =
-    useCornerstoneProps;
+  const { LEFT_MOUSE_TOOLS, itemLayers } = useCornerstone();
 
   // 도구 설정
   const setToolsByName = (index: number) => {
-    cornerstoneTools.addTool(leftMouseToolChain[index].func);
+    cornerstoneTools.addTool(LEFT_MOUSE_TOOLS[index].func);
 
     if (index === 0) {
-      cornerstoneTools.addTool(leftMouseToolChain[index].func);
-      cornerstoneTools.setToolActive(leftMouseToolChain[index].name, {
+      cornerstoneTools.addTool(LEFT_MOUSE_TOOLS[index].func);
+      cornerstoneTools.setToolActive(LEFT_MOUSE_TOOLS[index].name, {
         mouseButtonMask: 1,
       });
     } else {
-      cornerstoneTools.addTool(leftMouseToolChain[index].func);
-      cornerstoneTools.setToolPassive(leftMouseToolChain[index].name, {
+      cornerstoneTools.addTool(LEFT_MOUSE_TOOLS[index].func);
+      cornerstoneTools.setToolPassive(LEFT_MOUSE_TOOLS[index].name, {
         mouseButtonMask: 1,
       });
     }
@@ -65,7 +61,7 @@ export default function StackOfImagesWithPanAndRotate({
 
     try {
       if (layer.options.visible) {
-        layer.images.map((image) => {
+        layer.images.forEach((image) => {
           promises.push(cornerstone.loadAndCacheImage(image));
         });
       }
@@ -131,7 +127,7 @@ export default function StackOfImagesWithPanAndRotate({
           <li
             className={`p-2 border-2 cursor-pointer hover:bg-slate-400 hover:text-slate-50 bg-slate-400 text-slate-50`}
           >
-            {leftMouseToolChain[0].name}
+            {LEFT_MOUSE_TOOLS[0].name}
           </li>
         </ul>
 

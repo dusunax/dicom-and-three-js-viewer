@@ -2,15 +2,12 @@ import { useEffect, useRef, useState } from "react";
 
 import * as cornerstone from "cornerstone-core";
 
-import SectionWrap from "../components/common/SectionWrap";
-import { UseCornerstone } from "../models/cornerstone";
+import useCornerstone from "../hooks/useCornerstone";
 
-export default function StackOfImages({
-  useCornerstoneProps,
-}: {
-  useCornerstoneProps: UseCornerstone;
-}) {
-  const { itemSrcArray } = useCornerstoneProps;
+import SectionWrap from "../components/common/SectionWrap";
+
+export default function StackOfImages() {
+  const { itemSrcArray } = useCornerstone();
   const elementRef = useRef<HTMLDivElement | null>(null);
 
   // 컴포넌트 UI에 사용할 state

@@ -16,26 +16,16 @@ export default function CurrentTabComponent({
 
   const exampleOption = [
     {
-      component: <StackOfImages useCornerstoneProps={useCornerstoneProps} />,
+      component: <StackOfImages />,
     },
     {
-      component: (
-        <StackOfImagesWithChangeIndex
-          useCornerstoneProps={useCornerstoneProps}
-        />
-      ),
+      component: <StackOfImagesWithChangeIndex />,
     },
     {
-      component: (
-        <StackOfImagesWithPanAndRotate
-          useCornerstoneProps={useCornerstoneProps}
-        />
-      ),
+      component: <StackOfImagesWithPanAndRotate />,
     },
     {
-      component: (
-        <StackOfImagesWithToolsBox useCornerstoneProps={useCornerstoneProps} />
-      ),
+      component: <StackOfImagesWithToolsBox />,
     },
   ];
 
