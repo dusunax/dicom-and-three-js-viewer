@@ -81,13 +81,14 @@ export default function useCornerstone() {
       subTools: [],
       config: {},
     },
-    {
-      name: "Eraser",
-      func: cornerstoneTools.EraserTool,
-      subTools: [],
-      config: {},
-    },
   ];
+
+  // {
+  //   name: "Eraser",
+  //   func: cornerstoneTools.EraserTool,
+  //   subTools: [],
+  //   config: {},
+  // },
 
   const RIGHT_MOUSE_TOOLS = [
     {

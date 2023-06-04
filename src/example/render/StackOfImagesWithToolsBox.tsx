@@ -15,8 +15,7 @@ import Spinner from "@/components/element/ui/Spinner";
 // ToolBox
 export default function StackOfImagesWithToolsBox() {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const { LEFT_MOUSE_TOOLS, itemLayers, OVERLAY_TOOLS, RIGHT_MOUSE_TOOLS } =
-    useCornerstone();
+  const { LEFT_MOUSE_TOOLS, itemLayers, RIGHT_MOUSE_TOOLS } = useCornerstone();
 
   // 툴박스 컴포넌트 UI에 사용할 state
   const [leftIndex, setLeftIndex] = useState(0);
@@ -41,21 +40,12 @@ export default function StackOfImagesWithToolsBox() {
       cornerstoneTools.getElementToolStateManager(element);
     toolStateManager.clear(element);
 
-    if (tools[index].name === "Eraser") {
-      cornerstoneTools.addTool(tools[index].func, {
-        configuration: tools[index].config,
-      });
-      cornerstoneTools.setToolPassive(tools[index].name, {
-        mouseButtonMask: mouseButtonMask,
-      });
-    } else {
-      cornerstoneTools.addTool(tools[index].func, {
-        configuration: tools[index].config,
-      });
-      cornerstoneTools.setToolActive(tools[index].name, {
-        mouseButtonMask: mouseButtonMask,
-      });
-    }
+    cornerstoneTools.addTool(tools[index].func, {
+      configuration: tools[index].config,
+    });
+    cornerstoneTools.setToolActive(tools[index].name, {
+      mouseButtonMask: mouseButtonMask,
+    });
   };
 
   /** initialize 초기화 */
@@ -71,8 +61,8 @@ export default function StackOfImagesWithToolsBox() {
     });
     cornerstoneTools.getElementToolStateManager(element).clear(element);
 
-    setToolsByIndex(0, LEFT_MOUSE_TOOLS, 1);
     setToolsByIndex(0, RIGHT_MOUSE_TOOLS, 2);
+    setToolsByIndex(0, LEFT_MOUSE_TOOLS, 1);
 
     // initialize images
     const image = await loadImageOption(itemLayers[0]);
@@ -129,8 +119,11 @@ export default function StackOfImagesWithToolsBox() {
   // Tool 변경
   useEffect(() => {
     setToolsByIndex(leftIndex, LEFT_MOUSE_TOOLS, 1);
+  }, [leftIndex]);
+
+  useEffect(() => {
     setToolsByIndex(rightIndex, RIGHT_MOUSE_TOOLS, 2);
-  }, [leftIndex, rightIndex]);
+  }, [rightIndex]);
 
   return (
     <div onContextMenu={(event) => event.preventDefault()}>
