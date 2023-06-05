@@ -24,9 +24,12 @@
       "@cornerstonejs/dicom-image-loader": [
         "node_modules/@cornerstonejs/dicom-image-loader/dist/dynamic-import/cornerstoneDICOMImageLoader.min.js"
       ],
-      "typeRoots": ["./@types"]
+      "typeRoots": ["frontend/@types"]
     }
   },
   "include": ["src"],
-  "files": ["@types/cornerstone-core-tests.ts", "@types/cornerstone-core.d.ts"]
+  "files": [
+    "frontend/@types/cornerstone-core-tests.ts",
+    "frontend/@types/cornerstone-core.d.ts"
+  ]
 }

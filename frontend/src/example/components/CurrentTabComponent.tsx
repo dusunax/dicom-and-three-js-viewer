@@ -1,3 +1,4 @@
+import RenderVolume from "../render/RenderVolume";
 import StackOfImages from "../render/StackOfImages";
 import StackOfImagesWithChangeIndex from "../render/StackOfImagesWithChangeIndex";
 import StackOfImagesWithPanAndRotate from "../render/StackOfImagesWithPanAndRotate";
@@ -20,6 +21,9 @@ export default function CurrentTabComponent({
     },
     {
       component: <StackOfImagesWithToolsBox />,
+    },
+    {
+      component: <RenderVolume />,
     },
   ];
 
