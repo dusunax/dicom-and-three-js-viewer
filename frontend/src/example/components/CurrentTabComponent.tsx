@@ -22,9 +22,9 @@ export default function CurrentTabComponent({
     {
       component: <StackOfImagesWithToolsBox />,
     },
-    {
-      component: <RenderVolume />,
-    },
+    // {
+    //   component: <RenderVolume />,
+    // },
   ];
 
   return <>{exampleComponents[tabIndex].component}</>;

@@ -155,13 +155,13 @@ export default function useCornerstone() {
         kor: "CornerstoneTools: 툴박스",
       },
     },
-    {
-      name: "Render 3D Volume",
-      description: {
-        en: "Render 3D Volume",
-        kor: "Render 3D Volume",
-      },
-    },
+    // {
+    //   name: "Render 3D Volume",
+    //   description: {
+    //     en: "Render 3D Volume",
+    //     kor: "Render 3D Volume",
+    //   },
+    // },
   ];
 
   // 이미지 레이어 (프리뷰) 정보

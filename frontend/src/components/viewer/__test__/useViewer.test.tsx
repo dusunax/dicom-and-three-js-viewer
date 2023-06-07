@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
-import Viewer from "../Viewer";
+import ThreeViewer from "../Viewer";
 
 describe("useViewer", () => {
-  render(<Viewer />);
+  render(<ThreeViewer />);
 
-  it("renders a rotating box", () => {
-    const rotatingBox = screen.getByTestId("viewer");
-    expect(rotatingBox).toBeInTheDocument();
+  it("renders a viewer", () => {
+    const viewerWrapper = screen.getByTestId("viewer");
+    expect(viewerWrapper).toBeInTheDocument();
   });
 });
