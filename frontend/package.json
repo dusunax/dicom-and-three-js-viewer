@@ -8,6 +8,7 @@
     "@cornerstonejs/dicom-image-loader": "^1.1.5",
     "@cornerstonejs/streaming-image-volume-loader": "^1.1.6",
     "@cornerstonejs/tools": "^1.1.6",
+    "@kitware/vtk.js": "^28.2.1",
     "cornerstone-core": "^2.6.1",
     "cornerstone-tools": "^6.0.9",
     "cornerstone-wado-image-loader": "^4.13.1",
@@ -21,7 +22,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-three-fiber": "^6.0.13",
-    "three": "^0.153.0"
+    "three": "^0.153.0",
+    "vtk.js": "^28.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
