@@ -9,6 +9,7 @@ function loadGLTFModel(scene: THREE.Scene, glbPath: string, options: any) {
 
   return new Promise((resolve, reject) => {
     const loader = new GLTFLoader();
+
     loader.load(
       glbPath,
       (gltf) => {
