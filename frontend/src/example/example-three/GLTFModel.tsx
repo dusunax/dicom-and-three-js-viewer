@@ -124,15 +124,8 @@ const Dinosaur = () => {
   }, []);
 
   return (
-    <div
-      style={{ height: "540px", width: "540px", position: "relative" }}
-      ref={refContainer}
-    >
-      {loading && (
-        <span style={{ position: "absolute", left: "50%", top: "50%" }}>
-          Loading...
-        </span>
-      )}
+    <div className="w-[500px] h-[400px]" ref={refContainer}>
+      {loading && <span>Loading...</span>}
     </div>
   );
 };

@@ -6,8 +6,8 @@ import ThreeExample from "@/example/example-three/ThreeExample";
 export default function ThreePage() {
   return (
     <DefaultLayout>
-      {/* <ThreeViewer /> */}
-      <ThreeExample />
+      <ThreeViewer />
+      {/* <ThreeExample /> */}
     </DefaultLayout>
   );
 }

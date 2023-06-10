@@ -1,12 +1,12 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Loading from "@/pages/common/Loading";
 import MainPage from "@/pages/Main";
-import Convertor from "@/pages/convertor/Convertor";
+const Loading = lazy(() => import("@/pages/common/Loading"));
+const ExamplePage = lazy(() => import("@/pages/Example"));
 
-const ExamplePage = lazy(() => import("../pages/Example"));
-const PLYPage = lazy(() => import("../pages/view/Three"));
+const ThreePage = lazy(() => import("@/pages/view/Three"));
+const Convertor = lazy(() => import("@/pages/convertor/Convertor"));
 
 export default function Router() {
   return (
@@ -16,7 +16,7 @@ export default function Router() {
           <Route path="/" element={<MainPage />} />
 
           <Route path="/view/dicom" element={<ExamplePage />} />
-          <Route path="/view/3d" element={<PLYPage />} />
+          <Route path="/view/3d" element={<ThreePage />} />
 
           <Route path="/convertor" element={<Convertor />} />
           <Route path="/convertor/:convert-type" element={<Convertor />} />
