@@ -37,14 +37,14 @@ export default function ThreeViewer() {
 
   return (
     <div className="wrapper flex justify-center">
-      <label
+      {/* <label
         htmlFor="plyUpload"
         className="w-16 h-16 rounded-full flex justify-center items-center fixed left-6 top-[100px] bg-orange-400 "
       >
         📂
       </label>
 
-      {/* <label
+      <label
         htmlFor="pngSave"
         className="w-16 h-16 rounded-full flex justify-center items-center fixed left-24 top-[100px] bg-green-500 "
         onClick={handleSaveImage}

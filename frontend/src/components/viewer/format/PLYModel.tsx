@@ -34,8 +34,12 @@ function loadPLYModelByFile({
       const plyDataUint8 = new Uint8Array(plyData);
       const geometry = loader.parse(plyDataUint8);
 
-      handleGeometry({ geometry });
-      reader.readAsArrayBuffer(plyFile);
+      const { mesh } =
+        renderType === "standard"
+          ? handleGeometry({ geometry })
+          : handleTriMesh({ geometry });
+      render({ renderer, container, scene, geometry, mesh });
+      // reader.readAsArrayBuffer(plyFile);
     }
   };
 }
