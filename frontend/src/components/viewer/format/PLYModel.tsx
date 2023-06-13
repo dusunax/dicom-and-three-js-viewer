@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
 
 import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Float32BufferAttribute } from "three";
 import { RenderMode, loadModelByFile, loadModelBySrc } from "@/models/loader";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils";
 
 // ----------------------------------------------------------------
 // file loader
@@ -17,6 +18,7 @@ function loadPLYModelByFile({
   scene,
   plyFile,
   renderType,
+  mergeRange,
 }: loadModelByFile) {
   console.log("파일 로더");
   const loader = new PLYLoader();
@@ -37,7 +39,7 @@ function loadPLYModelByFile({
       const { mesh } =
         renderType === "standard"
           ? handleGeometry({ geometry })
-          : handleTriMesh({ geometry });
+          : handleTriMesh({ geometry, mergeRange });
       render({ renderer, container, scene, geometry, mesh });
       // reader.readAsArrayBuffer(plyFile);
     }
@@ -51,6 +53,7 @@ function loadPLYModelBySrc({
   scene,
   plyPath,
   renderType,
+  mergeRange,
 }: loadModelBySrc) {
   console.log("경로 로더");
 
@@ -59,7 +62,7 @@ function loadPLYModelBySrc({
     const { mesh } =
       renderType === "standard"
         ? handleGeometry({ geometry })
-        : handleTriMesh({ geometry });
+        : handleTriMesh({ geometry, mergeRange });
     render({ renderer, container, scene, geometry, mesh });
   });
 }
@@ -102,10 +105,11 @@ function handleGeometry({
 
 function handleTriMesh({
   geometry,
+  mergeRange,
 }: {
   geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes>;
+  mergeRange: number;
 }) {
-  const triangles = new THREE.Triangle();
   const positionAttribute = geometry.attributes.position;
   const normalAttribute = new Float32BufferAttribute(
     positionAttribute.count * 3,
@@ -118,6 +122,8 @@ function handleTriMesh({
   geometry.center();
 
   geometry.computeBoundingBox();
+
+  geometry = BufferGeometryUtils.mergeVertices(geometry, mergeRange);
 
   const material = new THREE.MeshStandardMaterial({
     color: "#fffcf1",
@@ -218,15 +224,19 @@ function render({
 export default function PLYModel({
   file,
   renderMode,
+  mergeRange,
+  setLoading,
 }: {
   file: File | null;
   renderMode: RenderMode;
+  mergeRange: number;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const refContainer = useRef<HTMLDivElement | null>(null);
   const [rendererEl, setRendererEl] = useState<any | null>(null);
 
   useEffect(() => {
-    console.log("file changed", file);
+    console.log("view changed\n", "file:", file);
 
     const { current: container } = refContainer;
     if (!container) return;
@@ -257,6 +267,7 @@ export default function PLYModel({
         scene,
         plyPath: DEFAULT_PLY_FILE,
         renderType: renderMode,
+        mergeRange,
       });
     } else {
       loadPLYModelByFile({
@@ -265,13 +276,14 @@ export default function PLYModel({
         scene,
         plyFile: file,
         renderType: renderMode,
+        mergeRange,
       });
     }
 
     return () => {
       rendererEl && rendererEl.dispose();
     };
-  }, [file, renderMode]);
+  }, [file, renderMode, mergeRange]);
 
   return <div ref={refContainer} />;
 }

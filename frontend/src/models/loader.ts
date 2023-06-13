@@ -5,6 +5,7 @@ export interface loadModelProps {
   container: any;
   scene: THREE.Scene;
   renderType: RenderMode;
+  mergeRange: number;
 }
 
 export interface loadModelByFile extends loadModelProps {
