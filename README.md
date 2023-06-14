@@ -13,3 +13,6 @@
 - 중간 정리: [230607 - Configure router & layout, re-add Three.js](https://github.com/dusunax/dicom-viewer/issues/4)
 
 ### [2. Render 3D file](https://github.com/dusunax/dicom-viewer/issues/5)
+
+- Three.js: rendering [230610 - ThreeJS Viewer](https://github.com/dusunax/dicom-viewer/issues/6)
+- Three.js: options [230611 - Handle three.js with tasks](https://github.com/dusunax/dicom-viewer/issues/8)
