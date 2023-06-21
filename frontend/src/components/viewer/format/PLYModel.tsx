@@ -126,7 +126,7 @@ function handleTriMesh({
   geometry = BufferGeometryUtils.mergeVertices(geometry, mergeRange);
 
   const material = new THREE.MeshStandardMaterial({
-    color: "#fffcf1",
+    color: "#eeece7",
   });
 
   const wireframeMaterial = new THREE.MeshBasicMaterial({
@@ -194,7 +194,7 @@ function render({
   // setting light
   var lightHolder = new THREE.Group();
 
-  var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
   directionalLight.position.set(1, 1, 0).normalize();
   lightHolder.add(directionalLight);
 
@@ -246,7 +246,7 @@ export default function PLYModel({
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
-      alpha: true,
+      // alpha: true,
     });
 
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -258,7 +258,8 @@ export default function PLYModel({
 
     const scene = new THREE.Scene();
     // const DEFAULT_PLY_FILE="/models/goat-skull.ply"
-    const DEFAULT_PLY_FILE = "/models/cast-teeth.ply";
+    // const DEFAULT_PLY_FILE = "/models/cast-teeth.ply";
+    const DEFAULT_PLY_FILE = "/models/converted-1.ply";
 
     if (file === null) {
       loadPLYModelBySrc({
