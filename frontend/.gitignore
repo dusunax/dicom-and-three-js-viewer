@@ -10,6 +10,9 @@
 # production
 /build
 
+# large file (larger than 100mb)
+mesh-step1.ply
+
 # misc
 .DS_Store
 .env.local

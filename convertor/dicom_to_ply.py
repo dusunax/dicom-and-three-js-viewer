@@ -42,9 +42,9 @@ def get_pixels_hu(scans):
 
     return np.array(image, dtype=np.int16)
 
-
+# (volume, level=None, *, spacing=(1., 1., 1.), gradient_direction='descent', step_size=1, allow_degenerate=True, method='lewiner', mask=None)
 def create_mesh(image, threshold=700):
-    v, f, _, _ = marching_cubes(image, level=threshold)
+    v, f, _, _ = marching_cubes(image, level=threshold, step_size=2)
     f = f[:, ::-1]  # reverse the vertex order of faces
     return trimesh.Trimesh(vertices=v, faces=f, process=False)
 

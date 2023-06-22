@@ -257,9 +257,7 @@ export default function PLYModel({
     setRendererEl(renderer);
 
     const scene = new THREE.Scene();
-    // const DEFAULT_PLY_FILE="/models/goat-skull.ply"
-    // const DEFAULT_PLY_FILE = "/models/cast-teeth.ply";
-    const DEFAULT_PLY_FILE = "/models/converted-1.ply";
+    const DEFAULT_PLY_FILE = "/models/converted/mesh-step2.ply";
 
     if (file === null) {
       loadPLYModelBySrc({
