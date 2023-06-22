@@ -63,6 +63,7 @@ function loadPLYModelBySrc({
       renderType === "standard"
         ? handleGeometry({ geometry })
         : handleTriMesh({ geometry, mergeRange });
+
     render({ renderer, container, scene, geometry, mesh });
   });
 }
@@ -126,7 +127,7 @@ function handleTriMesh({
   geometry = BufferGeometryUtils.mergeVertices(geometry, mergeRange);
 
   const material = new THREE.MeshStandardMaterial({
-    color: "#eeece7",
+    color: "#e8e2d3",
   });
 
   const wireframeMaterial = new THREE.MeshBasicMaterial({
@@ -185,7 +186,8 @@ function render({
   const camera = new THREE.PerspectiveCamera(
     30,
     window.innerWidth / window.innerHeight,
-    1
+    1,
+    3000
   );
 
   camera.position.set(x, y, cameraZ);
@@ -202,7 +204,6 @@ function render({
   lightHolder.add(light);
 
   scene.add(lightHolder);
-
   scene.add(mesh);
 
   const controls = new OrbitControls(camera, container);
@@ -214,7 +215,7 @@ function render({
     lightHolder.quaternion.copy(camera.quaternion);
     controls.update();
 
-    // renderer.clear();
+    renderer.clear();
     renderer.render(scene, camera);
   }
 
@@ -246,7 +247,7 @@ export default function PLYModel({
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
-      // alpha: true,
+      alpha: true,
     });
 
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -282,7 +283,7 @@ export default function PLYModel({
     return () => {
       rendererEl && rendererEl.dispose();
     };
-  }, [file, renderMode, mergeRange]);
+  }, [file, renderMode, mergeRange, setLoading]);
 
   return <div ref={refContainer} />;
 }

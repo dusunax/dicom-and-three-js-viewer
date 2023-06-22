@@ -83,7 +83,7 @@ export default function ThreeViewer() {
 
         {loading && "loading..."}
 
-        {renderMode === "wireframe" && (
+        {/* {renderMode === "wireframe" && (
           <div>
             <p>Mesh merge: {mergeRange.toFixed(1)}</p>
             <input
@@ -91,13 +91,13 @@ export default function ThreeViewer() {
               name="tolerance"
               id="tolerance"
               min={0}
-              max={1}
+              max={2}
               step={0.1}
               defaultValue={mergeRange}
               onMouseUp={handleRangeMouseUp}
             />
           </div>
-        )}
+        )} */}
       </div>
 
       <input
