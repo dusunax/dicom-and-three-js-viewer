@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { RenderMode } from "@/models/loader";
+import { RenderMode } from "@/types/loader";
 
 import PLYModel from "./format/PLYModel";
 
