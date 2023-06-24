@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { RenderMode } from "@/types/loader";
 
-import PLYModel from "./format/PLYModel";
+import Ply from "./format/Ply";
 
 export default function ThreeViewer() {
   const [file, setFile] = useState<File | null>(null);
@@ -107,7 +107,8 @@ export default function ThreeViewer() {
         id="plyUpload"
         onChange={handleFileChange}
       />
-      <PLYModel
+
+      <Ply
         file={file}
         renderMode={renderMode}
         mergeRange={mergeRange}

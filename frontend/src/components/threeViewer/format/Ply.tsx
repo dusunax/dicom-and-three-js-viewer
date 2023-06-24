@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react";
-import * as THREE from "three";
+import { useEffect, useRef, Dispatch, SetStateAction } from "react";
 
 import { RenderMode } from "@/types/loader";
 
 import usePlyViewer from "../hooks/usePlyViewer";
 
-export default function PLYModel({
+export default function Ply({
   file,
   renderMode = "standard",
   mergeRange,
@@ -18,8 +17,7 @@ export default function PLYModel({
 }) {
   const refContainer = useRef<HTMLDivElement | null>(null);
 
-  const { initialize, loadHandler, loadPLYModelByFile, loadPLYModelBySrc } =
-    usePlyViewer();
+  const { loadHandler } = usePlyViewer();
 
   useEffect(() => {
     console.log("view changed\n", "file:", file);
