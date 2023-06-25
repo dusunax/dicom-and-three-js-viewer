@@ -39,7 +39,7 @@ export default function usePlyViewer() {
   function loadHandler({
     container,
     file,
-    DEFAULT_PLY_FILE_PATH,
+    DEFAULT_FILE_PATH,
     renderMode: renderType,
     mergeRange,
   }: LoadHandlerProps) {
@@ -50,7 +50,7 @@ export default function usePlyViewer() {
         renderer,
         container,
         scene,
-        plyPath: DEFAULT_PLY_FILE_PATH,
+        filePath: DEFAULT_FILE_PATH,
         renderMode: renderType,
         mergeRange,
       });
@@ -107,19 +107,19 @@ export default function usePlyViewer() {
     };
   }
 
-  /** plyPath: 경로의 ply model을 load합니다. */
+  /** filePath 경로의 ply model을 load합니다. */
   function loadPLYModelBySrc({
     renderer,
     container,
     scene,
-    plyPath,
+    filePath,
     renderMode: renderType,
     mergeRange = 1,
   }: LoadModelBySrc) {
     console.log("경로 로더");
 
     const loader = new PLYLoader();
-    loader.load(plyPath, async (geometry) => {
+    loader.load(filePath, async (geometry) => {
       const { mesh } =
         renderType === "standard"
           ? handleGeometry({ geometry })

@@ -2,9 +2,9 @@ import { useEffect, useRef, Dispatch, SetStateAction } from "react";
 
 import { RenderMode } from "@/types/loader";
 
-import usePlyViewer from "../hooks/usePlyViewer";
+import useNrrdViewer from "../hooks/useNrrdViewer";
 
-export default function Ply({
+export default function Nrrd({
   file,
   renderMode = "standard",
   mergeRange,
@@ -17,11 +17,11 @@ export default function Ply({
 }) {
   const refContainer = useRef<HTMLDivElement | null>(null);
 
-  const { loadHandler } = usePlyViewer();
+  const { loadHandler } = useNrrdViewer();
 
   useEffect(() => {
     console.log("view changed\n", "file:", file);
-    const DEFAULT_FILE_PATH = "/models/converted/mesh-step2.ply";
+    const DEFAULT_FILE_PATH = "/models/sample/stent.nrrd";
 
     const { current: container } = refContainer;
     if (!container) return;
@@ -40,6 +40,6 @@ export default function Ply({
   }, [file, renderMode, mergeRange, setLoading]);
 
   return (
-    <div ref={refContainer} className="ply-viewer" data-testid="ply-viewer" />
+    <div ref={refContainer} className="nrrd-viewer" data-testid="nrrd-viewer" />
   );
 }

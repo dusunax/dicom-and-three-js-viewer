@@ -1,14 +1,28 @@
 export type RenderMode = "standard" | "wireframe";
+export type RenderType = "model" | "volume";
 
+export interface Cmtextures {
+  viridis: THREE.Texture;
+  gray: THREE.Texture;
+}
 export interface OptionalConfig {
   renderMode?: RenderMode;
   mergeRange?: number;
 }
 
+export interface VolumeConfig {
+  clim1: number;
+  clim2: number;
+  renderstyle: string;
+  isothreshold: number;
+  colormap: string;
+}
+
+// function props
 export interface LoadHandlerProps extends OptionalConfig {
   container: HTMLDivElement;
   file: File | null;
-  DEFAULT_PLY_FILE_PATH: string;
+  DEFAULT_FILE_PATH: string;
 }
 
 export interface LoadModelProps extends OptionalConfig {
@@ -22,9 +36,9 @@ export interface LoadModelByFile extends LoadModelProps {
 }
 
 export interface LoadModelBySrc extends LoadModelProps {
-  plyPath: string;
+  filePath: string;
 }
 
 export interface LoadVolumeBySrc extends LoadModelProps {
-  volumePath: string;
+  filePath: string;
 }

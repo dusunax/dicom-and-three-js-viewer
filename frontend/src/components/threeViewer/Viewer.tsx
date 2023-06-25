@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 
-import { RenderMode } from "@/types/loader";
+import { RenderMode, RenderType } from "@/types/loader";
 
 import Ply from "./format/Ply";
+import Nrrd from "./format/Nrrd";
 
-export default function ThreeViewer() {
+export default function ThreeViewer({
+  renderType,
+}: {
+  renderType: RenderType;
+}) {
   const [file, setFile] = useState<File | null>(null);
   const [blob, saveBlob] = useState<{ blob: Blob; fileName: string }>();
 
@@ -68,18 +73,20 @@ export default function ThreeViewer() {
         💾
       </label> */}
       <div className="right-button-box flex flex-col items-end fixed right-6 top-[100px]">
-        <button
-          className={`triModeToggle w-16 h-16 mb-4 rounded-full flex justify-center items-center  ${
-            renderMode === "wireframe" ? "bg-blue-500" : "bg-gray-400"
-          } `}
-          onClick={() =>
-            renderMode === "wireframe"
-              ? setRenderMode("standard")
-              : setRenderMode("wireframe")
-          }
-        >
-          Tri
-        </button>
+        {renderType === "model" && (
+          <button
+            className={`triModeToggle w-16 h-16 mb-4 rounded-full flex justify-center items-center  ${
+              renderMode === "wireframe" ? "bg-blue-500" : "bg-gray-400"
+            } `}
+            onClick={() =>
+              renderMode === "wireframe"
+                ? setRenderMode("standard")
+                : setRenderMode("wireframe")
+            }
+          >
+            Tri
+          </button>
+        )}
 
         {loading && "loading..."}
 
@@ -108,12 +115,23 @@ export default function ThreeViewer() {
         onChange={handleFileChange}
       />
 
-      <Ply
-        file={file}
-        renderMode={renderMode}
-        mergeRange={mergeRange}
-        setLoading={setLoading} // 로딩 처리 필요
-      />
+      {renderType === "model" && (
+        <Ply
+          file={file}
+          renderMode={renderMode}
+          mergeRange={mergeRange}
+          setLoading={setLoading} // 로딩 처리 필요
+        />
+      )}
+
+      {renderType === "volume" && (
+        <Nrrd
+          file={file}
+          renderMode={renderMode}
+          mergeRange={mergeRange}
+          setLoading={setLoading} // 로딩 처리 필요
+        />
+      )}
     </div>
   );
 }
