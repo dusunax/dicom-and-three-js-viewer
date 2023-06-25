@@ -19,5 +19,6 @@
 - [Trimesh](https://github.com/mikedh/trimesh)(python) : 2D to 3D [230621 - dcm to ply (2D to 3D) : file format conversion](https://github.com/dusunax/dicom-and-three-js-viewer/issues/10)
 - Three.js & Trimesh: Fixing issues [230622 - Adjust clipping plane & Adjust Converting step size](https://github.com/dusunax/dicom-and-three-js-viewer/issues/11)
 - 중간 정리: [230624 - Custom hook refactor: ply viewer](https://github.com/dusunax/dicom-and-three-js-viewer/issues/13)
+- dat.GUI: [230625 - Add dat.GUI](https://github.com/dusunax/dicom-and-three-js-viewer/issues/14)
 
 ### [3. Volume Rendering](https://github.com/dusunax/dicom-and-three-js-viewer/issues/12)
