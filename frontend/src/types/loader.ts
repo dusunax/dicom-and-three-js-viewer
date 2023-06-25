@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type RenderMode = "standard" | "wireframe";
 export type RenderType = "model" | "volume";
 
@@ -5,9 +7,19 @@ export interface Cmtextures {
   viridis: THREE.Texture;
   gray: THREE.Texture;
 }
+
+export interface GuiConfig {
+  tolerance: number;
+  wireframe: boolean;
+  color: string;
+  light: number;
+  metalness: number;
+  roughness: number;
+}
 export interface OptionalConfig {
-  renderMode?: RenderMode;
-  mergeRange?: number;
+  isWireframe: boolean;
+  guiConfig: GuiConfig;
+  setGuiConfig: Dispatch<SetStateAction<GuiConfig>>;
 }
 
 export interface VolumeConfig {

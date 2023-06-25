@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { RenderMode, RenderType } from "@/types/loader";
+import { GuiConfig, RenderType } from "@/types/loader";
 
 import Ply from "./format/Ply";
 import Nrrd from "./format/Nrrd";
@@ -14,13 +14,23 @@ export default function ThreeViewer({
   const [blob, saveBlob] = useState<{ blob: Blob; fileName: string }>();
 
   // state for UI
-  const [renderMode, setRenderMode] = useState<RenderMode>("standard");
-  const [mergeRange, setMergeRange] = useState(0.3);
+  const [isWireframe, setIsWirefame] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(blob);
-  }, [blob]);
+  const defaultGuiConfig: GuiConfig = {
+    tolerance: 0,
+    wireframe: isWireframe,
+    color: "#f1eae5",
+    light: 0.6,
+    metalness: 0.1,
+    roughness: 0.8,
+  };
+
+  const [guiConfig, setGuiConfig] = useState(defaultGuiConfig);
+
+  // useEffect(() => {
+  //   console.log(blob);
+  // }, [blob]);
 
   //----------------------------------------------------------------
   // Buttons (not implemented yet)
@@ -50,12 +60,6 @@ export default function ThreeViewer({
   };
   //----------------------------------------------------------------
 
-  const handleRangeMouseUp = (
-    e: React.MouseEvent<HTMLInputElement, MouseEvent>
-  ) => {
-    !loading && setMergeRange(+e.currentTarget.value);
-  };
-
   return (
     <div className="wrapper flex justify-center">
       {/* <label
@@ -76,13 +80,9 @@ export default function ThreeViewer({
         {renderType === "model" && (
           <button
             className={`triModeToggle w-16 h-16 mb-4 rounded-full flex justify-center items-center  ${
-              renderMode === "wireframe" ? "bg-blue-500" : "bg-gray-400"
+              isWireframe ? "bg-blue-500" : "bg-gray-400"
             } `}
-            onClick={() =>
-              renderMode === "wireframe"
-                ? setRenderMode("standard")
-                : setRenderMode("wireframe")
-            }
+            onClick={() => setIsWirefame(!isWireframe)}
           >
             Tri
           </button>
@@ -90,11 +90,11 @@ export default function ThreeViewer({
 
         {loading && "loading..."}
 
-        {/* {renderMode === "wireframe" && (
+        {/* {renderMode&& (
           <div>
             <p>Mesh merge: {mergeRange.toFixed(1)}</p>
             <input
-              type="range"
+              type="ran
               name="tolerance"
               id="tolerance"
               min={0}
@@ -118,18 +118,20 @@ export default function ThreeViewer({
       {renderType === "model" && (
         <Ply
           file={file}
-          renderMode={renderMode}
-          mergeRange={mergeRange}
-          setLoading={setLoading} // 로딩 처리 필요
+          isWireframe={isWireframe}
+          setIsWirefame={setIsWirefame}
+          defaultGuiConfig={guiConfig}
+          setGuiConfig={setGuiConfig}
         />
       )}
 
       {renderType === "volume" && (
         <Nrrd
           file={file}
-          renderMode={renderMode}
-          mergeRange={mergeRange}
-          setLoading={setLoading} // 로딩 처리 필요
+          isWireframe={isWireframe}
+          setIsWirefame={setIsWirefame}
+          defaultGuiConfig={guiConfig}
+          setGuiConfig={setGuiConfig}
         />
       )}
     </div>

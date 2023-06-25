@@ -1,12 +1,16 @@
+import { Dispatch, SetStateAction } from "react";
+
 import * as THREE from "three";
 import { Float32BufferAttribute } from "three";
 
 import {
+  GuiConfig,
   LoadHandlerProps,
   LoadModelByFile,
   LoadModelBySrc,
 } from "@/types/loader";
 
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils";
@@ -14,8 +18,8 @@ import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUti
 export default function usePlyViewer() {
   // ----------------------------------------------------------------
   // load handler & initialize
+  // - renderer, secene
   // ----------------------------------------------------------------
-
   function initialize(container: HTMLDivElement) {
     const scW = window.innerWidth;
     const scH = window.innerHeight;
@@ -40,8 +44,9 @@ export default function usePlyViewer() {
     container,
     file,
     DEFAULT_FILE_PATH,
-    renderMode: renderType,
-    mergeRange,
+    isWireframe,
+    guiConfig,
+    setGuiConfig,
   }: LoadHandlerProps) {
     const { renderer, scene } = initialize(container);
 
@@ -51,8 +56,9 @@ export default function usePlyViewer() {
         container,
         scene,
         filePath: DEFAULT_FILE_PATH,
-        renderMode: renderType,
-        mergeRange,
+        isWireframe,
+        guiConfig,
+        setGuiConfig,
       });
     } else {
       loadPLYModelByFile({
@@ -60,12 +66,59 @@ export default function usePlyViewer() {
         container,
         scene,
         modelFile: file,
-        renderMode: renderType,
-        mergeRange,
+        isWireframe,
+        guiConfig,
+        setGuiConfig,
       });
     }
 
-    return { renderer };
+    return { renderer, scene };
+  }
+
+  // ----------------------------------------------------------------
+  // GUI editor
+  // ----------------------------------------------------------------
+  function guiEditorInit(
+    guiConfig: GuiConfig,
+    setGuiConfig: Dispatch<SetStateAction<GuiConfig>>
+  ): void {
+    if (guiConfig === undefined || document.querySelector(".lil-gui")) return;
+
+    console.log(guiConfig);
+
+    const gui = new GUI();
+    gui.$title.innerText = "설정 ⚙ model configuration";
+    gui
+      .add(guiConfig, "wireframe", [true, false])
+      .onFinishChange((value: boolean) =>
+        setGuiConfig((prevState) => ({ ...prevState, wireframe: value }))
+      );
+    gui
+      .add(guiConfig, "light", 0, 1, 0.1)
+      .onFinishChange((value: number) =>
+        setGuiConfig((prevState) => ({ ...prevState, light: value }))
+      );
+    gui
+      .add(guiConfig, "metalness", 0, 1, 0.1)
+      .onFinishChange((value: number) =>
+        setGuiConfig((prevState) => ({ ...prevState, metalness: value }))
+      );
+    gui
+      .add(guiConfig, "roughness", 0, 1, 0.1)
+      .onFinishChange((value: number) =>
+        setGuiConfig((prevState) => ({ ...prevState, roughness: value }))
+      );
+    gui
+      .addColor(guiConfig, "color")
+      .onFinishChange((value: string) =>
+        setGuiConfig((prevState) => ({ ...prevState, color: value }))
+      );
+
+    // Move the GUI to the top right corner
+    const guiElement = gui.domElement;
+    guiElement.style.position = "absolute";
+    guiElement.style.top = "90px";
+    guiElement.style.left = "10px";
   }
 
   // ----------------------------------------------------------------
@@ -78,13 +131,13 @@ export default function usePlyViewer() {
     container,
     scene,
     modelFile,
-    renderMode: renderType,
-    mergeRange = 1,
+    isWireframe,
+    guiConfig,
+    setGuiConfig,
   }: LoadModelByFile) {
-    console.log("파일 로더");
     const loader = new PLYLoader();
-
     const reader = new FileReader();
+
     reader.onload = (event) => {
       if (event.target && event.target.result) {
         let plyData: string | ArrayBuffer = event.target.result;
@@ -97,12 +150,20 @@ export default function usePlyViewer() {
         const plyDataUint8 = new Uint8Array(plyData);
         const geometry = loader.parse(plyDataUint8);
 
-        const { mesh } =
-          renderType === "standard"
-            ? handleGeometry({ geometry })
-            : handleTriMesh({ geometry, mergeRange });
-        render({ renderer, container, scene, geometry, mesh });
-        // reader.readAsArrayBuffer(plyFile);
+        const { mesh } = isWireframe
+          ? handleTriMesh({ geometry, guiConfig })
+          : handleGeometry({ geometry, guiConfig });
+
+        render({
+          renderer,
+          container,
+          scene,
+          geometry,
+          mesh,
+          guiConfig,
+        });
+
+        guiEditorInit(guiConfig, setGuiConfig);
       }
     };
   }
@@ -113,30 +174,41 @@ export default function usePlyViewer() {
     container,
     scene,
     filePath,
-    renderMode: renderType,
-    mergeRange = 1,
+    isWireframe,
+    guiConfig,
+    setGuiConfig,
   }: LoadModelBySrc) {
-    console.log("경로 로더");
-
     const loader = new PLYLoader();
-    loader.load(filePath, async (geometry) => {
-      const { mesh } =
-        renderType === "standard"
-          ? handleGeometry({ geometry })
-          : handleTriMesh({ geometry, mergeRange });
 
-      render({ renderer, container, scene, geometry, mesh });
+    loader.load(filePath, async (geometry) => {
+      const { mesh } = isWireframe
+        ? handleTriMesh({ geometry, guiConfig })
+        : handleGeometry({ geometry, guiConfig });
+
+      render({
+        renderer,
+        container,
+        scene,
+        geometry,
+        mesh,
+        guiConfig,
+      });
+
+      guiEditorInit(guiConfig, setGuiConfig);
     });
   }
 
   // ----------------------------------------------------------------
   // handleGeometry
+  // - geometry, material, mesh
   // ----------------------------------------------------------------
 
   function handleGeometry({
     geometry,
+    guiConfig,
   }: {
     geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes>;
+    guiConfig: GuiConfig;
   }) {
     const positionAttribute = geometry.attributes.position;
     const normalAttribute = new Float32BufferAttribute(
@@ -151,8 +223,16 @@ export default function usePlyViewer() {
 
     geometry.computeBoundingBox();
 
-    const material = new THREE.MeshStandardMaterial({
-      color: "#fffcf1",
+    geometry = BufferGeometryUtils.mergeVertices(geometry, guiConfig.tolerance);
+
+    // 재질
+    const material = new THREE.MeshPhysicalMaterial({
+      color: guiConfig.color,
+      metalness: guiConfig.metalness, // 금속성
+      roughness: guiConfig.roughness, // 거칠기
+      clearcoat: 1.0, // 클리어 코트
+      clearcoatRoughness: 0.5, // 클리어 코트의 거칠기
+      reflectivity: 0.6, // 반사도
     });
     const mesh = new THREE.Mesh(geometry, material);
 
@@ -167,10 +247,10 @@ export default function usePlyViewer() {
 
   function handleTriMesh({
     geometry,
-    mergeRange,
+    guiConfig,
   }: {
     geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes>;
-    mergeRange: number;
+    guiConfig: GuiConfig;
   }) {
     const positionAttribute = geometry.attributes.position;
     const normalAttribute = new Float32BufferAttribute(
@@ -185,7 +265,7 @@ export default function usePlyViewer() {
 
     geometry.computeBoundingBox();
 
-    geometry = BufferGeometryUtils.mergeVertices(geometry, mergeRange);
+    geometry = BufferGeometryUtils.mergeVertices(geometry, guiConfig.tolerance);
 
     const material = new THREE.MeshStandardMaterial({
       color: "#e8e2d3",
@@ -223,12 +303,14 @@ export default function usePlyViewer() {
     geometry,
     mesh,
     scene,
+    guiConfig,
   }: {
     renderer: THREE.WebGLRenderer;
     container: any;
     geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes>;
     mesh: THREE.Mesh<any>;
     scene: THREE.Scene;
+    guiConfig: GuiConfig;
   }) {
     let x, y, z, cameraZ;
 
@@ -257,11 +339,11 @@ export default function usePlyViewer() {
     // setting light
     var lightHolder = new THREE.Group();
 
-    var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    var directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
     directionalLight.position.set(1, 1, 0).normalize();
     lightHolder.add(directionalLight);
 
-    const light = new THREE.AmbientLight("#FFF", 0.3);
+    const light = new THREE.AmbientLight("#FFF", guiConfig.light);
     lightHolder.add(light);
 
     scene.add(lightHolder);
@@ -270,18 +352,30 @@ export default function usePlyViewer() {
     const controls = new OrbitControls(camera, container);
     controls.enableZoom = true;
     // controls.autoRotate = true; // 자동 회전
+    controls.update();
 
+    updateRender(renderer, scene, camera);
+    return { renderer, scene, camera };
+  }
+
+  function updateRender(
+    renderer: THREE.WebGLRenderer,
+    scene: THREE.Scene,
+    camera: THREE.PerspectiveCamera
+  ) {
     function animate() {
-      requestAnimationFrame(animate);
-      lightHolder.quaternion.copy(camera.quaternion);
-      controls.update();
-
       renderer.clear();
       renderer.render(scene, camera);
+      requestAnimationFrame(animate);
     }
-
     animate();
   }
 
-  return { initialize, loadHandler, loadPLYModelByFile, loadPLYModelBySrc };
+  return {
+    initialize,
+    loadHandler,
+    loadPLYModelByFile,
+    loadPLYModelBySrc,
+    guiEditorInit,
+  };
 }

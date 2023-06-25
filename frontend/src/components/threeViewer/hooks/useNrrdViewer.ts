@@ -42,8 +42,9 @@ export default function useNrrdViewer() {
   function loadHandler({
     container,
     DEFAULT_FILE_PATH,
-    renderMode: renderType,
-    mergeRange,
+    isWireframe,
+    guiConfig,
+    setGuiConfig,
   }: LoadHandlerProps) {
     const { renderer, scene } = initialize(container);
 
@@ -52,8 +53,9 @@ export default function useNrrdViewer() {
       container,
       scene,
       filePath: DEFAULT_FILE_PATH,
-      renderMode: renderType,
-      mergeRange,
+      isWireframe,
+      guiConfig,
+      setGuiConfig,
     });
 
     return { renderer };

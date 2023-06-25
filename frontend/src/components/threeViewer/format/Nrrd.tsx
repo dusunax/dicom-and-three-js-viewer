@@ -1,23 +1,28 @@
 import { useEffect, useRef, Dispatch, SetStateAction } from "react";
 
-import { RenderMode } from "@/types/loader";
-
 import useNrrdViewer from "../hooks/useNrrdViewer";
+import { GuiConfig } from "@/types/loader";
 
 export default function Nrrd({
   file,
-  renderMode = "standard",
-  mergeRange,
-  setLoading,
+  isWireframe,
+  setIsWirefame,
+  defaultGuiConfig: guiConfig,
+  setGuiConfig,
 }: {
   file: File | null;
-  renderMode: RenderMode;
-  mergeRange: number | undefined;
-  setLoading: Dispatch<SetStateAction<boolean>>;
+  isWireframe: boolean;
+  setIsWirefame: Dispatch<SetStateAction<boolean>>;
+  defaultGuiConfig: GuiConfig;
+  setGuiConfig: Dispatch<SetStateAction<GuiConfig>>;
 }) {
   const refContainer = useRef<HTMLDivElement | null>(null);
 
   const { loadHandler } = useNrrdViewer();
+
+  useEffect(() => {
+    setIsWirefame(guiConfig.wireframe);
+  }, [guiConfig]);
 
   useEffect(() => {
     console.log("view changed\n", "file:", file);
@@ -30,14 +35,15 @@ export default function Nrrd({
       container,
       file,
       DEFAULT_FILE_PATH,
-      renderMode,
-      mergeRange,
+      isWireframe,
+      guiConfig,
+      setGuiConfig,
     });
 
     return () => {
       renderer && renderer.dispose();
     };
-  }, [file, renderMode, mergeRange, setLoading]);
+  }, [file, isWireframe]);
 
   return (
     <div ref={refContainer} className="nrrd-viewer" data-testid="nrrd-viewer" />
