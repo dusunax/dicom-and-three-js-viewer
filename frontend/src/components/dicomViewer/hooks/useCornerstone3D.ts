@@ -93,8 +93,6 @@ export default function useCornerstone3D() {
 
     volume.load();
 
-    console.log(volume);
-
     setVolumesForViewports(
       renderingEngine,
       [{ volumeId }],

@@ -72,8 +72,6 @@ export default function useNrrdViewer() {
     scene,
     filePath,
   }: LoadVolumeBySrc) {
-    console.log("경로 로더");
-
     let volconfig: VolumeConfig = {
       clim1: 0,
       clim2: 1,
@@ -86,11 +84,11 @@ export default function useNrrdViewer() {
       viridis: new THREE.TextureLoader().load(
         "textures/cm_viridis.png",
         (e) => {
-          console.log("aa" + e);
+          console.log("texture loaded: a" + e);
         }
       ),
       gray: new THREE.TextureLoader().load("textures/cm_gray.png", (e) => {
-        console.log("bb" + e);
+        console.log("texture loaded: b" + e);
       }),
     };
 
@@ -154,8 +152,6 @@ export default function useNrrdViewer() {
     uniforms["u_renderthreshold"].value = volconfig.isothreshold; // For ISO renderstyle
     uniforms["u_cmdata"].value =
       cmtextures[volconfig.colormap as keyof typeof cmtextures];
-
-    console.log(uniforms);
 
     let material = new THREE.ShaderMaterial({
       uniforms: shader.uniforms,

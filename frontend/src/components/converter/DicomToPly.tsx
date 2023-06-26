@@ -1,4 +1,4 @@
-import { PythonShell } from "python-shell";
+// import { PythonShell } from "python-shell";
 
 // PythonShell.runString("x=1+1;print(x)", undefined).then((messages) => {
 //   console.log("finished");

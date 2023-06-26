@@ -28,9 +28,6 @@ export default function ThreeViewer({
 
   const [guiConfig, setGuiConfig] = useState(defaultGuiConfig);
 
-  // useEffect(() => {
-  //   console.log(blob);
-  // }, [blob]);
 
   //----------------------------------------------------------------
   // Buttons (not implemented yet)

@@ -25,7 +25,7 @@ export default function Nrrd({
   }, [guiConfig]);
 
   useEffect(() => {
-    console.log("view changed\n", "file:", file);
+    // console.log("view changed\n", "file:", file);
     const DEFAULT_FILE_PATH = "/models/sample/stent.nrrd";
 
     const { current: container } = refContainer;

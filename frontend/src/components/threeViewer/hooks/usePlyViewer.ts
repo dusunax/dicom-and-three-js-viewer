@@ -84,8 +84,6 @@ export default function usePlyViewer() {
   ): void {
     if (guiConfig === undefined || document.querySelector(".lil-gui")) return;
 
-    console.log(guiConfig);
-
     const gui = new GUI();
     gui.$title.innerText = "설정 ⚙ model configuration";
     gui
