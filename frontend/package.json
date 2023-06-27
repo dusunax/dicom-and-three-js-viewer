@@ -16,6 +16,9 @@
     "dicom-parser": "^1.8.21",
     "dicomweb-client": "^0.10.2",
     "hammerjs": "^2.0.8",
+    "itk-image-io": "^1.0.0-b.18",
+    "itk-mesh-io": "^1.0.0-b.18",
+    "itk-wasm": "^1.0.0-b.18",
     "lodash.debounce": "^4.0.8",
     "react": "^18.2.0",
     "react-dicom-viewer": "^0.0.10",
@@ -23,7 +26,7 @@
     "react-router-dom": "^6.11.2",
     "react-three-fiber": "^6.0.13",
     "three": "^0.153.0",
-    "vtk.js": "^28.2.1"
+    "vtk.js": "^28.2.7"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
