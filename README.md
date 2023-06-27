@@ -10,7 +10,7 @@
 
 - Cornerstone [230530 - basic preview handling](https://github.com/dusunax/dicom-and-three-js-viewer/issues/1#issuecomment-1568791938)
 - Cornerstone Tools [230603 - Refactor Components and Hook, Finish Tool Selection Box](https://github.com/dusunax/dicom-and-three-js-viewer/issues/2)
-- 중간 정리: [230607 - Configure router & layout, re-add Three.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/4)
+- refactoring | 중간 정리: [230607 - Configure router & layout, re-add Three.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/4)
 
 ### [2. Render 3D file](https://github.com/dusunax/dicom-and-three-js-viewer/issues/5)
 
@@ -18,7 +18,7 @@
 - Three.js: options [230611 - Handle three.js with tasks](https://github.com/dusunax/dicom-and-three-js-viewer/issues/8)
 - [Trimesh](https://github.com/mikedh/trimesh)(python) : 2D to 3D [230621 - dcm to ply (2D to 3D) : file format conversion](https://github.com/dusunax/dicom-and-three-js-viewer/issues/10)
 - Three.js & Trimesh: Fixing issues [230622 - Adjust clipping plane & Adjust Converting step size](https://github.com/dusunax/dicom-and-three-js-viewer/issues/11)
-- 중간 정리: [230624 - Custom hook refactor: ply viewer](https://github.com/dusunax/dicom-and-three-js-viewer/issues/13)
+- refactoring | 중간 정리: [230624 - Custom hook refactor: ply viewer](https://github.com/dusunax/dicom-and-three-js-viewer/issues/13)
 - dat.GUI: [230625 - Add dat.GUI](https://github.com/dusunax/dicom-and-three-js-viewer/issues/14)
 
 ### [3. Volume Rendering](https://github.com/dusunax/dicom-and-three-js-viewer/issues/12)
