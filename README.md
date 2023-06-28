@@ -24,4 +24,4 @@
 
 ### [3. Volume Rendering](https://github.com/dusunax/dicom-and-three-js-viewer/issues/12)
 
-- Vtk.js: [230627 - Volume rendering with vtk.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/15)
+- Vtk.js: Contouring [230627 - Volume rendering with vtk.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/15)
