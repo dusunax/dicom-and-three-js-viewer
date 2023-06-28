@@ -32,6 +32,10 @@ export default function StackOfImagesWithPanAndRotate() {
   /** 초기화 */
   async function init() {
     cornerstoneTools.init();
+    const toolStateManager = cornerstoneTools.getElementToolStateManager(
+      elementRef.current
+    );
+    toolStateManager.clear(elementRef.current);
 
     const images = await loadImages(itemLayers[0]);
 

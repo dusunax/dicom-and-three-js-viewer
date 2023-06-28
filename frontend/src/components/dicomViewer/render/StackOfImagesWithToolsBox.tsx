@@ -15,12 +15,14 @@ import Spinner from "@/components/element/ui/Spinner";
 // ToolBox
 export default function StackOfImagesWithToolsBox() {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const { LEFT_MOUSE_TOOLS, itemLayers, RIGHT_MOUSE_TOOLS } = useCornerstone();
+  const { LEFT_MOUSE_TOOLS, itemLayers, RIGHT_MOUSE_TOOLS, OVERLAY_TOOLS } =
+    useCornerstone();
   const [loaded, setLoaded] = useState(false);
 
   // 툴박스 컴포넌트 UI에 사용할 state
   const [leftIndex, setLeftIndex] = useState(0);
   const [rightIndex, setRightIndex] = useState(0);
+  const [overlayToggle, setOverlayToggle] = useState(false);
 
   /** set tools: 도구를 설정합니다.
    * @method setToolsByIndex
@@ -37,10 +39,6 @@ export default function StackOfImagesWithToolsBox() {
     const element = elementRef.current;
     if (!element) return;
 
-    const toolStateManager =
-      cornerstoneTools.getElementToolStateManager(element);
-    toolStateManager.clear(element);
-
     cornerstoneTools.addTool(tools[index].func, {
       configuration: tools[index].config,
     });
@@ -49,9 +47,24 @@ export default function StackOfImagesWithToolsBox() {
     });
   };
 
+  /** 도구 비활성화 */
+  const setDeactivateToolByIndex = (index: number, tools: Tool[]): void => {
+    cornerstoneTools.setToolPassive(tools[index].name);
+  };
+
+  /** overlay 토글 */
+  const overlayToggleHandler = () => {
+    if (overlayToggle) {
+      setDeactivateToolByIndex(0, OVERLAY_TOOLS);
+    } else {
+      setToolsByIndex(0, OVERLAY_TOOLS, -1);
+    }
+    setOverlayToggle(!overlayToggle);
+  };
+
   /** initialize 초기화 */
   async function initElement(element: HTMLDivElement) {
-    // cornerstone.disable(element);
+    cornerstone.disable(element);
     cornerstone.enable(element, {
       renderer: "webgl",
     });
@@ -62,8 +75,8 @@ export default function StackOfImagesWithToolsBox() {
     });
     cornerstoneTools.getElementToolStateManager(element).clear(element);
 
-    setToolsByIndex(0, RIGHT_MOUSE_TOOLS, 2);
     setToolsByIndex(0, LEFT_MOUSE_TOOLS, 1);
+    setToolsByIndex(0, RIGHT_MOUSE_TOOLS, 2);
 
     // initialize images
     const image = await loadImageOption(itemLayers[0]);
@@ -91,10 +104,6 @@ export default function StackOfImagesWithToolsBox() {
 
       try {
         if (layer.options.visible && layer.images) {
-          // layer.images.forEach((image) => {
-          //   promises.push(cornerstone.loadAndCacheImage(image));
-          // });
-
           // 이미지 1장만 사용
           promises.push(cornerstone.loadAndCacheImage(layer.images[0]));
         }
@@ -114,44 +123,12 @@ export default function StackOfImagesWithToolsBox() {
 
     if (!loaded) {
       initElement(currentEl);
+      setLoaded(true);
     } else {
       setToolsByIndex(leftIndex, LEFT_MOUSE_TOOLS, 1);
       setToolsByIndex(rightIndex, RIGHT_MOUSE_TOOLS, 2);
-
-      // 이벤트 리스너 등록
-      currentEl.addEventListener(
-        "wheel",
-        (event: globalThis.WheelEvent) =>
-          currentEl && handleMouseWheel(event, currentEl)
-      );
     }
-
-    return () => {
-      // 컴포넌트 unmount시, 이벤트 리스너 제거
-      currentEl.removeEventListener(
-        "wheel",
-        (event) => currentEl && handleMouseWheel(event, currentEl)
-      );
-    };
   }, [leftIndex, rightIndex]);
-
-  // 마우스 휠 이벤트 핸들러 함수
-  const handleMouseWheel = (
-    event: globalThis.WheelEvent,
-    element: HTMLDivElement
-  ) => {
-    event.preventDefault();
-
-    const delta = Math.max(-1, Math.min(1, event.deltaY)); // 휠 움직임 방향 결정
-
-    const viewport = cornerstone.getViewport(element);
-    if (!viewport) {
-      return;
-    }
-
-    viewport.rotation += delta * 1; // 회전 각도 변경
-    cornerstone.setViewport(element, viewport);
-  };
 
   return (
     <div onContextMenu={(event) => event.preventDefault()}>
@@ -190,12 +167,23 @@ export default function StackOfImagesWithToolsBox() {
               </li>
             );
           })}
+          <li className="ml-2 pl-4 border-l-2 border-gray-300">오버레이:</li>
+          <li className="border-2 p-2 pl-0">
+            <input
+              type="checkbox"
+              name="overlay"
+              id="overlay"
+              onChange={overlayToggleHandler}
+              className="mx-2"
+            />
+            <label htmlFor="overlay">overlay</label>
+          </li>
         </ul>
 
         <div
           id="contentOne"
           ref={elementRef}
-          className="w-[700px] h-[400px] mx-auto relative overflow-hidden border-cyan-400 border-spacing-2 bg-black"
+          className="w-full h-[700px] mx-auto relative overflow-hidden border-cyan-400 border-spacing-2 bg-black"
         ></div>
 
         {loadImageOptionState.loading && (

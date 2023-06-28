@@ -14,6 +14,7 @@ export default function StackOfImagesWithChangeIndex() {
 
   // 컴포넌트 UI에 사용할 state
   const [imageIndex, setImageIndex] = useState(0);
+  const rowLimit = 10;
 
   // 마우스 휠 이벤트 핸들러 함수
   const handleMouseWheel = (
@@ -85,6 +86,9 @@ export default function StackOfImagesWithChangeIndex() {
         element && handleMouseWheel(event, element)
     );
 
+    // 키 이벤트 리스너 등록
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
       cornerstone.disable(element);
 
@@ -93,6 +97,9 @@ export default function StackOfImagesWithChangeIndex() {
         "wheel",
         (event) => element && handleMouseWheel(event, element)
       );
+
+      // 컴포넌트 언마운트 시, 키 이벤트 리스너 제거
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -118,14 +125,50 @@ export default function StackOfImagesWithChangeIndex() {
     }
   };
 
+  // 키 이벤트
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "ArrowLeft") {
+      // 좌측 키를 눌렀을 때
+      setImageIndex((prevIndex) => {
+        const newIndex = prevIndex > 0 ? prevIndex - 1 : prevIndex;
+        return newIndex;
+      });
+    } else if (event.key === "ArrowRight") {
+      // 우측 키를 눌렀을 때
+      setImageIndex((prevIndex) => {
+        const newIndex =
+          prevIndex + 1 < itemSrcArray.length ? prevIndex + 1 : prevIndex;
+        return newIndex;
+      });
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+
+      setImageIndex((prevIndex) => {
+        const newIndex =
+          prevIndex - rowLimit + 1 > 0 ? prevIndex - rowLimit : prevIndex;
+        return newIndex;
+      });
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+
+      setImageIndex((prevIndex) => {
+        const newIndex =
+          prevIndex + rowLimit < itemSrcArray.length
+            ? prevIndex + rowLimit
+            : prevIndex;
+        return newIndex;
+      });
+    }
+  };
+
   return (
-    <SectionWrap title="Image Stack: Change input values or scroll for Rotate">
+    <SectionWrap title="Image Stack: Change input values or scroll for Indexing">
       <div className="button-box flex gap-4 justify-center mb-4">
         <input
           type="range"
           name="progress"
           id="progress"
-          className="w-[500px]"
+          className="w-[500px] outline-none"
           value={imageIndex}
           onChange={(e) => inputChangeHandler(e)}
           min={0}

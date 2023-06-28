@@ -23,24 +23,6 @@ export default function useCornerstone() {
   /** [0: Pan, 1: Magnify, 2: Angle, 3: Wwwc, 4: Eraser] */
   const LEFT_MOUSE_TOOLS = [
     {
-      name: "Pan",
-      func: cornerstoneTools.PanTool,
-      subTools: [
-        {
-          name: "PanMultiTouch",
-          func: cornerstoneTools.PanMultiTouchTool,
-          config: {},
-        },
-      ],
-      config: {},
-    },
-    {
-      name: "Magnify",
-      func: cornerstoneTools.MagnifyTool,
-      subTools: [],
-      config: {},
-    },
-    {
       name: "Angle",
       func: cornerstoneTools.AngleTool,
       subTools: [],
@@ -81,16 +63,33 @@ export default function useCornerstone() {
       subTools: [],
       config: {},
     },
+    {
+      name: "Eraser",
+      func: cornerstoneTools.EraserTool,
+      subTools: [],
+      config: {},
+    },
   ];
 
-  // {
-  //   name: "Eraser",
-  //   func: cornerstoneTools.EraserTool,
-  //   subTools: [],
-  //   config: {},
-  // },
-
   const RIGHT_MOUSE_TOOLS = [
+    {
+      name: "Magnify",
+      func: cornerstoneTools.MagnifyTool,
+      subTools: [],
+      config: {},
+    },
+    {
+      name: "Pan",
+      func: cornerstoneTools.PanTool,
+      subTools: [
+        {
+          name: "PanMultiTouch",
+          func: cornerstoneTools.PanMultiTouchTool,
+          config: {},
+        },
+      ],
+      config: {},
+    },
     {
       name: "Zoom",
       func: cornerstoneTools.ZoomTool,
@@ -108,7 +107,13 @@ export default function useCornerstone() {
       ],
       config: {},
     },
-    { name: "Wwwc", func: cornerstoneTools.WwwcTool, subTools: [], config: {} },
+    {
+      name: "Rotate",
+      func: cornerstoneTools.RotateTool,
+      subTools: [],
+      config: {},
+    },
+    // { name: "Wwwc", func: cornerstoneTools.WwwcTool, subTools: [], config: {} },
   ];
 
   const OVERLAY_TOOLS = [
