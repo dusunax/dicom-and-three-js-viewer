@@ -146,13 +146,13 @@ export default function useCornerstone() {
         kor: "ImageStack: 이미지 index 변경",
       },
     },
-    {
-      name: "Stack of Image with Pan & Rotate",
-      description: {
-        en: "CornerstoneTools: Pan to Drag and Scroll to wheel",
-        kor: "CornerstoneTools: Pan(왼쪽), Rotate(휠)",
-      },
-    },
+    // {
+    //   name: "Stack of Image with Pan & Rotate",
+    //   description: {
+    //     en: "CornerstoneTools: Pan to Drag and Scroll to wheel",
+    //     kor: "CornerstoneTools: Pan(왼쪽), Rotate(휠)",
+    //   },
+    // },
     {
       name: "Stack of Image with Tools box",
       description: {

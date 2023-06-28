@@ -4,7 +4,7 @@ import * as cornerstone from "cornerstone-core";
 //@ts-ignore
 import * as cornerstoneTools from "cornerstone-tools";
 
-import { Layer } from "../types/cornerstone";
+import { Layer, Tool } from "../types/cornerstone";
 
 import SectionWrap from "../components/common/SectionWrap";
 import useCornerstone from "../hooks/useCornerstone";
@@ -12,20 +12,18 @@ import useCornerstone from "../hooks/useCornerstone";
 // ToolBox
 export default function StackOfImagesWithPanAndRotate() {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const { LEFT_MOUSE_TOOLS, itemLayers } = useCornerstone();
+  const { LEFT_MOUSE_TOOLS, RIGHT_MOUSE_TOOLS, itemLayers } = useCornerstone();
 
   // 도구 설정
-  const setToolsByName = (index: number) => {
+  const setToolsByIndex = (index: number, toolsArray: Tool[]) => {
     if (index === 0) {
-      cornerstoneTools.addTool(LEFT_MOUSE_TOOLS[index].func);
-      cornerstoneTools.setToolActive(LEFT_MOUSE_TOOLS[index].name, {
+      cornerstoneTools.addTool(toolsArray[index].func);
+      cornerstoneTools.setToolActive(toolsArray[index].name, {
         mouseButtonMask: 1,
       });
     } else {
-      cornerstoneTools.addTool(LEFT_MOUSE_TOOLS[index].func);
-      cornerstoneTools.setToolPassive(LEFT_MOUSE_TOOLS[index].name, {
-        mouseButtonMask: 1,
-      });
+      cornerstoneTools.addTool(toolsArray[index].func);
+      cornerstoneTools.setToolPassive(toolsArray[index].name);
     }
   };
 
@@ -103,7 +101,9 @@ export default function StackOfImagesWithPanAndRotate() {
     });
 
     init();
-    setToolsByName(0);
+
+    LEFT_MOUSE_TOOLS.map((e, idx) => setToolsByIndex(idx, LEFT_MOUSE_TOOLS));
+    RIGHT_MOUSE_TOOLS.map((e, idx) => setToolsByIndex(idx, RIGHT_MOUSE_TOOLS));
 
     // 이벤트 리스너 등록
     elementRef.current?.addEventListener(

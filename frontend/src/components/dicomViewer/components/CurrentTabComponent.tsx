@@ -16,9 +16,9 @@ export default function CurrentTabComponent({
     {
       component: <StackOfImagesWithChangeIndex />,
     },
-    {
-      component: <StackOfImagesWithPanAndRotate />,
-    },
+    // {
+    //   component: <StackOfImagesWithPanAndRotate />,
+    // },
     {
       component: <StackOfImagesWithToolsBox />,
     },

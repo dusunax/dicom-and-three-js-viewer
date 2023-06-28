@@ -168,7 +168,7 @@ export default function StackOfImagesWithChangeIndex() {
           type="range"
           name="progress"
           id="progress"
-          className="w-[500px] outline-none"
+          className="w-[500px]"
           value={imageIndex}
           onChange={(e) => inputChangeHandler(e)}
           min={0}

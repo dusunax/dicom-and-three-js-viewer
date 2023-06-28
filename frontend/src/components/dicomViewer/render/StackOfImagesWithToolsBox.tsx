@@ -130,6 +130,12 @@ export default function StackOfImagesWithToolsBox() {
     }
   }, [leftIndex, rightIndex]);
 
+  useEffect(() => {
+    return () => {
+      elementRef.current && cornerstone.disable(elementRef.current);
+    };
+  }, []);
+
   return (
     <div onContextMenu={(event) => event.preventDefault()}>
       <SectionWrap title="CornerstoneTools: Tools box">
