@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { GuiConfig, RenderType } from "@/types/loader";
 
 import Ply from "./format/Ply";
-import Nrrd from "./format/Nrrd";
 
 export default function ThreeViewer({
   renderType,
@@ -27,7 +26,6 @@ export default function ThreeViewer({
   };
 
   const [guiConfig, setGuiConfig] = useState(defaultGuiConfig);
-
 
   //----------------------------------------------------------------
   // Buttons (not implemented yet)
@@ -86,22 +84,6 @@ export default function ThreeViewer({
         )}
 
         {loading && "loading..."}
-
-        {/* {renderMode&& (
-          <div>
-            <p>Mesh merge: {mergeRange.toFixed(1)}</p>
-            <input
-              type="ran
-              name="tolerance"
-              id="tolerance"
-              min={0}
-              max={2}
-              step={0.1}
-              defaultValue={mergeRange}
-              onMouseUp={handleRangeMouseUp}
-            />
-          </div>
-        )} */}
       </div>
 
       <input
@@ -114,16 +96,6 @@ export default function ThreeViewer({
 
       {renderType === "model" && (
         <Ply
-          file={file}
-          isWireframe={isWireframe}
-          setIsWirefame={setIsWirefame}
-          defaultGuiConfig={guiConfig}
-          setGuiConfig={setGuiConfig}
-        />
-      )}
-
-      {renderType === "volume" && (
-        <Nrrd
           file={file}
           isWireframe={isWireframe}
           setIsWirefame={setIsWirefame}

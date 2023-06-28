@@ -9,12 +9,3 @@ describe("model viewer", () => {
     expect(viewerWrapper).toBeInTheDocument();
   });
 });
-
-describe("volume viewer", () => {
-  render(<ThreeViewer renderType="volume" />);
-
-  it("renders a viewer", () => {
-    const viewerWrapper = screen.getByTestId("nrrd-viewer");
-    expect(viewerWrapper).toBeInTheDocument();
-  });
-});

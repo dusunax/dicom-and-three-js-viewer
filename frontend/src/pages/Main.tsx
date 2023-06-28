@@ -11,13 +11,13 @@ export default function MainPage() {
           <ol className="flex flex-col gap-6">
             <li>
               <h2 className="text-lg font-bold">ReadMe</h2>
-              <p>프로젝트 깃헙 문서: Github link</p>
+              <p>프로젝트 깃허브: Github link</p>
               <a
                 className="text-gray-500 underline underline-offset-4"
-                href="https://github.com/dusunax/dicom-viewer/wiki"
+                href="https://github.com/dusunax/dicom-and-three-js-viewer"
                 target="_blank"
               >
-                https://github.com/dusunax/dicom-viewer/wiki
+                https://github.com/dusunax/dicom-and-three-js-viewer
               </a>
             </li>
             <li>
@@ -31,13 +31,23 @@ export default function MainPage() {
               </Link>
             </li>
             <li>
-              <h2 className="text-lg font-bold">3D</h2>
-              <p>ply 파일을 3D 화면에 출력합니다.</p>
+              <h2 className="text-lg font-bold">3D 모델</h2>
+              <p>ply 파일을 3D 모델로 화면에 출력합니다.</p>
               <Link
-                to="/view/3d"
+                to="/view/3d/model"
                 className="text-gray-500 underline underline-offset-4"
               >
-                /view/dicom
+                /view/3d/model
+              </Link>
+            </li>
+            <li>
+              <h2 className="text-lg font-bold">3D 볼륨</h2>
+              <p>dcm 파일 시리즈를 3D 볼륨으로 화면에 출력합니다.</p>
+              <Link
+                to="/view/vtk"
+                className="text-gray-500 underline underline-offset-4"
+              >
+                /view/vtk
               </Link>
             </li>
           </ol>
