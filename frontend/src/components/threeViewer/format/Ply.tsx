@@ -20,7 +20,7 @@ export default function Ply({
 }) {
   const refContainer = useRef<HTMLDivElement | null>(null);
 
-  const { loadHandler, guiEditorInit } = usePlyViewer();
+  const { loadHandler, GUIRef } = usePlyViewer();
 
   useEffect(() => {
     setIsWirefame(guiConfig.wireframe);
@@ -42,6 +42,7 @@ export default function Ply({
 
     return () => {
       renderer && renderer.dispose();
+      GUIRef.current?.destroy();
     };
   }, [
     file,

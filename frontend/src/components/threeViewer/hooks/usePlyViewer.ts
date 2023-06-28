@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 
 import * as THREE from "three";
 import { Float32BufferAttribute } from "three";
@@ -16,6 +16,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils";
 
 export default function usePlyViewer() {
+  const GUIRef = useRef<GUI | null>(null);
   // ----------------------------------------------------------------
   // load handler & initialize
   // - renderer, secene
@@ -111,6 +112,7 @@ export default function usePlyViewer() {
       .onFinishChange((value: string) =>
         setGuiConfig((prevState) => ({ ...prevState, color: value }))
       );
+    GUIRef.current = gui;
 
     // Move the GUI to the top right corner
     const guiElement = gui.domElement;
@@ -375,5 +377,6 @@ export default function usePlyViewer() {
     loadPLYModelByFile,
     loadPLYModelBySrc,
     guiEditorInit,
+    GUIRef,
   };
 }

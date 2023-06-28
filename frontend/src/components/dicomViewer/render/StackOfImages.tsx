@@ -66,8 +66,6 @@ export default function StackOfImages() {
 
   // 키 이벤트
   const handleKeyDown = (event: KeyboardEvent) => {
-    console.log(imageIndex);
-
     if (event.key === "ArrowLeft") {
       // 좌측 키를 눌렀을 때
       setImageIndex((prevIndex) => {
@@ -122,7 +120,7 @@ export default function StackOfImages() {
           {itemSrcArray.map((e, i) => {
             return (
               <>
-                {i % rowLimit === 0 ? <br /> : ""}
+                {i % rowLimit === 0 ? <br key={i + "br"} /> : ""}
                 <button
                   key={e}
                   className={`w-4 h-4 mx-1 rounded-full text-xs ${
