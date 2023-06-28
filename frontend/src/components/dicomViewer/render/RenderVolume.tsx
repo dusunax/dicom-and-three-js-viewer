@@ -22,8 +22,8 @@ export default function RenderVolume() {
     <SectionWrap title="Render 3D Volume">
       <div id="content"></div>
       <div className="w-[800px] mx-auto pt-4 flex gap-2">
-        <div className="bg-black flex-1 h-[300px]" />
-        <div className="bg-black flex-1 h-[300px]" />
+        <div className="bg-black flex-1 h-[400px]" />
+        <div className="bg-black flex-1 h-[400px]" />
       </div>
     </SectionWrap>
   );

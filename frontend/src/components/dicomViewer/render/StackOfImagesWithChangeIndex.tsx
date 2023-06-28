@@ -144,7 +144,7 @@ export default function StackOfImagesWithChangeIndex() {
       <div
         id="contentOne"
         ref={elementRef}
-        className="w-[600px] h-[300px] mx-auto border-cyan-400 border-spacing-2 bg-black"
+        className="w-[700px] h-[400px] mx-auto border-cyan-400 border-spacing-2 bg-black"
       ></div>
     </SectionWrap>
   );

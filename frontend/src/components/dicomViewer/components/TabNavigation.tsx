@@ -37,8 +37,9 @@ export default function TabNavigation({
           <li
             key={e.name}
             className={`cursor-pointer ${
-              URLSearchParams.get("example") &&
-              Number(URLSearchParams.get("example")) === idx
+              (!URLSearchParams.get("example") && idx === 0) ||
+              (URLSearchParams.get("example") &&
+                Number(URLSearchParams.get("example")) === idx)
                 ? "font-bold underline"
                 : ""
             }`}

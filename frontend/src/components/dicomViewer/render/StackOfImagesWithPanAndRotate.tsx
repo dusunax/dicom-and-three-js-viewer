@@ -16,8 +16,6 @@ export default function StackOfImagesWithPanAndRotate() {
 
   // 도구 설정
   const setToolsByName = (index: number) => {
-    cornerstoneTools.addTool(LEFT_MOUSE_TOOLS[index].func);
-
     if (index === 0) {
       cornerstoneTools.addTool(LEFT_MOUSE_TOOLS[index].func);
       cornerstoneTools.setToolActive(LEFT_MOUSE_TOOLS[index].name, {
@@ -104,7 +102,7 @@ export default function StackOfImagesWithPanAndRotate() {
     setToolsByName(0);
 
     // 이벤트 리스너 등록
-    elementRef.current.addEventListener(
+    elementRef.current?.addEventListener(
       "wheel",
       (event: globalThis.WheelEvent) =>
         elementRef.current && handleMouseWheel(event, elementRef.current)
@@ -118,7 +116,7 @@ export default function StackOfImagesWithPanAndRotate() {
           elementRef.current && handleMouseWheel(event, elementRef.current)
       );
     };
-  }, []);
+  }, [elementRef.current]);
 
   return (
     <>
@@ -134,7 +132,7 @@ export default function StackOfImagesWithPanAndRotate() {
         <div
           id="contentOne"
           ref={elementRef}
-          className="w-[600px] h-[300px] mx-auto border-cyan-400 border-spacing-2 bg-black"
+          className="w-[700px] h-[400px] mx-auto border-cyan-400 border-spacing-2 bg-black"
         ></div>
       </SectionWrap>
     </>

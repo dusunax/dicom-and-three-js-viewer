@@ -16,6 +16,7 @@ import Spinner from "@/components/element/ui/Spinner";
 export default function StackOfImagesWithToolsBox() {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const { LEFT_MOUSE_TOOLS, itemLayers, RIGHT_MOUSE_TOOLS } = useCornerstone();
+  const [loaded, setLoaded] = useState(false);
 
   // 툴박스 컴포넌트 UI에 사용할 state
   const [leftIndex, setLeftIndex] = useState(0);
@@ -50,7 +51,7 @@ export default function StackOfImagesWithToolsBox() {
 
   /** initialize 초기화 */
   async function initElement(element: HTMLDivElement) {
-    cornerstone.disable(element);
+    // cornerstone.disable(element);
     cornerstone.enable(element, {
       renderer: "webgl",
     });
@@ -108,22 +109,49 @@ export default function StackOfImagesWithToolsBox() {
 
   // mount시, rerender를 enable합니다.
   useEffect(() => {
-    const element = elementRef.current;
-    if (!element) {
+    const currentEl = elementRef.current;
+    if (!currentEl) return;
+
+    if (!loaded) {
+      initElement(currentEl);
+    } else {
+      setToolsByIndex(leftIndex, LEFT_MOUSE_TOOLS, 1);
+      setToolsByIndex(rightIndex, RIGHT_MOUSE_TOOLS, 2);
+
+      // 이벤트 리스너 등록
+      currentEl.addEventListener(
+        "wheel",
+        (event: globalThis.WheelEvent) =>
+          currentEl && handleMouseWheel(event, currentEl)
+      );
+    }
+
+    return () => {
+      // 컴포넌트 unmount시, 이벤트 리스너 제거
+      currentEl.removeEventListener(
+        "wheel",
+        (event) => currentEl && handleMouseWheel(event, currentEl)
+      );
+    };
+  }, [leftIndex, rightIndex]);
+
+  // 마우스 휠 이벤트 핸들러 함수
+  const handleMouseWheel = (
+    event: globalThis.WheelEvent,
+    element: HTMLDivElement
+  ) => {
+    event.preventDefault();
+
+    const delta = Math.max(-1, Math.min(1, event.deltaY)); // 휠 움직임 방향 결정
+
+    const viewport = cornerstone.getViewport(element);
+    if (!viewport) {
       return;
     }
 
-    initElement(element);
-  }, []);
-
-  // Tool 변경
-  useEffect(() => {
-    setToolsByIndex(leftIndex, LEFT_MOUSE_TOOLS, 1);
-  }, [leftIndex]);
-
-  useEffect(() => {
-    setToolsByIndex(rightIndex, RIGHT_MOUSE_TOOLS, 2);
-  }, [rightIndex]);
+    viewport.rotation += delta * 1; // 회전 각도 변경
+    cornerstone.setViewport(element, viewport);
+  };
 
   return (
     <div onContextMenu={(event) => event.preventDefault()}>
@@ -167,7 +195,7 @@ export default function StackOfImagesWithToolsBox() {
         <div
           id="contentOne"
           ref={elementRef}
-          className="w-[600px] h-[300px] mx-auto relative overflow-hidden border-cyan-400 border-spacing-2 bg-black"
+          className="w-[700px] h-[400px] mx-auto relative overflow-hidden border-cyan-400 border-spacing-2 bg-black"
         ></div>
 
         {loadImageOptionState.loading && (
