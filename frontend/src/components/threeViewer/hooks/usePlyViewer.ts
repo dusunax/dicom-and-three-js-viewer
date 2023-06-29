@@ -14,6 +14,7 @@ import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils";
+import { isGeneratorFunction } from "util/types";
 
 export default function usePlyViewer() {
   const GUIRef = useRef<GUI | null>(null);
@@ -92,26 +93,29 @@ export default function usePlyViewer() {
       .onFinishChange((value: boolean) =>
         setGuiConfig((prevState) => ({ ...prevState, wireframe: value }))
       );
-    gui
-      .add(guiConfig, "light", 0, 1, 0.1)
-      .onFinishChange((value: number) =>
-        setGuiConfig((prevState) => ({ ...prevState, light: value }))
-      );
-    gui
-      .add(guiConfig, "metalness", 0, 1, 0.1)
-      .onFinishChange((value: number) =>
-        setGuiConfig((prevState) => ({ ...prevState, metalness: value }))
-      );
-    gui
-      .add(guiConfig, "roughness", 0, 1, 0.1)
-      .onFinishChange((value: number) =>
-        setGuiConfig((prevState) => ({ ...prevState, roughness: value }))
-      );
-    gui
-      .addColor(guiConfig, "color")
-      .onFinishChange((value: string) =>
-        setGuiConfig((prevState) => ({ ...prevState, color: value }))
-      );
+
+    if (!guiConfig.wireframe) {
+      gui
+        .add(guiConfig, "light", 0, 1, 0.1)
+        .onFinishChange((value: number) =>
+          setGuiConfig((prevState) => ({ ...prevState, light: value }))
+        );
+      gui
+        .add(guiConfig, "metalness", 0, 1, 0.1)
+        .onFinishChange((value: number) =>
+          setGuiConfig((prevState) => ({ ...prevState, metalness: value }))
+        );
+      gui
+        .add(guiConfig, "roughness", 0, 1, 0.1)
+        .onFinishChange((value: number) =>
+          setGuiConfig((prevState) => ({ ...prevState, roughness: value }))
+        );
+      gui
+        .addColor(guiConfig, "color")
+        .onChange((value: string) =>
+          setGuiConfig((prevState) => ({ ...prevState, color: value }))
+        );
+    }
     GUIRef.current = gui;
 
     // Move the GUI to the top right corner

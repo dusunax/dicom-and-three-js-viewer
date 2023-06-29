@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { GuiConfig, RenderType } from "@/types/loader";
 
@@ -53,6 +53,19 @@ export default function ThreeViewer({
       });
     });
   };
+
+  useEffect(() => {
+    const currentModeText = document.querySelector(".currentModeText");
+    if (!currentModeText) return;
+
+    if (guiConfig.wireframe) {
+      currentModeText.setAttribute("style", `background: #047ad7;`);
+    } else {
+      currentModeText.setAttribute("style", `background: ${guiConfig.color};`);
+    }
+    console.log(document.querySelector(".currentModeText"));
+  }, [guiConfig]);
+
   //----------------------------------------------------------------
 
   return (
@@ -73,14 +86,13 @@ export default function ThreeViewer({
       </label> */}
       <div className="right-button-box flex flex-col items-end fixed right-6 top-[100px]">
         {renderType === "model" && (
-          <button
-            className={`triModeToggle w-16 h-16 mb-4 rounded-full flex justify-center items-center  ${
-              isWireframe ? "bg-blue-500" : "bg-gray-400"
+          <div
+            className={`currentModeText w-20 h-8 rounded-sm flex justify-center items-center text-sm  ${
+              isWireframe ? "bg-blue-500 text-cyan-50 " : `bg-gray-200`
             } `}
-            onClick={() => setIsWirefame(!isWireframe)}
           >
-            Tri
-          </button>
+            {isWireframe ? "tri mode" : "surface "}
+          </div>
         )}
 
         {loading && "loading..."}
