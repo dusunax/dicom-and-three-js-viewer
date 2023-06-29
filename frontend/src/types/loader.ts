@@ -1,11 +1,21 @@
 import { Dispatch, SetStateAction } from "react";
 
+import { RGBAColor, RGBColor } from "@kitware/vtk.js/types";
+
+// --------------------------------
+// type for config
+// --------------------------------
 export type RenderMode = "standard" | "wireframe";
-export type RenderType = "model" | "volume" | "sample";
+export type RenderType = "model" | "volume" | "sample-a" | "sample-b";
 
 export interface Cmtextures {
   viridis: THREE.Texture;
   gray: THREE.Texture;
+}
+
+export interface ViewerConfig {
+  background?: RGBColor | RGBAColor;
+  containerStyle?: any;
 }
 
 export interface GuiConfig {
@@ -30,7 +40,9 @@ export interface VolumeConfig {
   colormap: string;
 }
 
+// --------------------------------
 // function props
+// --------------------------------
 export interface LoadHandlerProps extends OptionalConfig {
   container: HTMLDivElement;
   file: File | null;

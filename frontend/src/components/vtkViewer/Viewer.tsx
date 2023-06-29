@@ -1,13 +1,15 @@
 import { RenderType } from "@/types/loader";
 
 import Dcm from "./format/Dcm";
-import Sample from "./format/Sample";
+import SampleA from "./format/SampleA";
+import SampleB from "./format/SampleB";
 
 export default function VtkViewer({ renderType }: { renderType: RenderType }) {
   return (
     <>
       {renderType === "volume" && <Dcm />}
-      {renderType === "sample" && <Sample />}
+      {renderType === "sample-a" && <SampleA />}
+      {renderType === "sample-b" && <SampleB />}
     </>
   );
 }
