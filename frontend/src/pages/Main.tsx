@@ -1,7 +1,19 @@
+import { startTransition, useCallback } from "react";
 import DefaultLayout from "@/components/layout/DefaultLayout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MainPage() {
+  const navigate = useNavigate();
+
+  const handleClick = useCallback(
+    (path: string) => {
+      startTransition(() => {
+        navigate(path);
+      });
+    },
+    [navigate]
+  );
+
   return (
     <DefaultLayout>
       <section>

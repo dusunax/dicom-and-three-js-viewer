@@ -1,6 +1,9 @@
 {
   "name": "dicom-viewer",
   "version": "0.1.0",
+  "engines": {
+    "node": "16"
+  },
   "private": true,
   "dependencies": {
     "@cornerstonejs/calculate-suv": "^1.0.3",
@@ -25,8 +28,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-three-fiber": "^6.0.13",
-    "three": "^0.153.0",
-    "vtk.js": "^28.2.7"
+    "three": "^0.153.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

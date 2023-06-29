@@ -1,7 +1,18 @@
-import { Link, useLocation } from "react-router-dom";
+import { useCallback, startTransition } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleClick = useCallback(
+    (path: string) => {
+      startTransition(() => {
+        navigate(path);
+      });
+    },
+    [navigate]
+  );
 
   const navLinks = [
     { pathname: "/view/dicom", label: "DICOM" },
@@ -31,7 +42,12 @@ export default function Header() {
                   key={pathname}
                   className={`${isCurrent ? "font-bold" : ""}`}
                 >
-                  <Link to={pathname}>{label}</Link>
+                  <a
+                    onClick={() => handleClick(pathname)}
+                    className="cursor-pointer hover:text-blue-500"
+                  >
+                    {label}
+                  </a>
                 </li>
               );
             })}
