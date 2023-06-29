@@ -17,7 +17,7 @@ export default function MainPage() {
   return (
     <DefaultLayout>
       <section>
-        <div className="max-w-[1080px] h-full px-10 mx-auto">
+        <div className="max-w-[1080px] h-full px-10 mx-auto bg-white">
           <h1 className="text-2xl font-extrabold py-6">Index</h1>
 
           <ol className="flex flex-col gap-6">

@@ -53,7 +53,7 @@ export default function StackOfImages() {
 
     // 컴포넌트 언마운트 시, 키 이벤트 리스너 제거
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document?.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 

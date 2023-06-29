@@ -127,7 +127,9 @@ export default function useVtkSampleA() {
 
         if (e.key === "ArrowUp") {
           setConstarst((prev) => {
-            let newValue = +prev + 0.1;
+            if (prev >= 1) return 1;
+            let newValue = +prev + 0.05;
+            console.log(prev, newValue);
 
             volumeActor.getProperty().setAmbient(1 - newValue);
 
@@ -139,7 +141,8 @@ export default function useVtkSampleA() {
           });
         } else if (e.key === "ArrowDown") {
           setConstarst((prev) => {
-            let newValue = +prev - 0.1;
+            if (prev <= 0) return 0;
+            let newValue = +prev - 0.05;
 
             volumeActor.getProperty().setAmbient(1 - newValue);
 
@@ -155,7 +158,7 @@ export default function useVtkSampleA() {
       document.addEventListener("keydown", handleKeyDown);
 
       return () => {
-        document.removeEventListener("keydown", handleKeyDown);
+        document?.removeEventListener("keydown", handleKeyDown);
       };
     })();
   }, []);

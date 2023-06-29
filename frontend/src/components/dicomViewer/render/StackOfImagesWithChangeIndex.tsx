@@ -99,7 +99,7 @@ export default function StackOfImagesWithChangeIndex() {
       );
 
       // 컴포넌트 언마운트 시, 키 이벤트 리스너 제거
-      document.removeEventListener("keydown", handleKeyDown);
+      document?.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 

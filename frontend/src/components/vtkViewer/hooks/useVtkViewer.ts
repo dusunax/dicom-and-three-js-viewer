@@ -33,7 +33,8 @@ export default function useVtkViewer() {
   };
 
   useEffect(() => {
-    if (isLoading || progress === dicomLength) return;
+    if (isLoading || progress === dicomLength || !vtkContainerRef.current)
+      return;
 
     setIsLoading(true);
 
@@ -41,15 +42,16 @@ export default function useVtkViewer() {
       context.current.fullScreenRenderer === undefined ||
       context.current.fullScreenRenderer?.isDeleted()
     ) {
-      initialize(viewerConfig);
+      initialize(viewerConfig, vtkContainerRef.current);
     }
   }, []);
 
   // 1
-  function initialize(viewerConfig: ViewerConfig) {
+  function initialize(viewerConfig: ViewerConfig, container: HTMLDivElement) {
     const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance({
       background: viewerConfig.background,
       listenWindowResize: true,
+      container,
     });
 
     const renderWindow = fullScreenRenderer.getRenderWindow();
@@ -132,11 +134,22 @@ export default function useVtkViewer() {
     setIsLoading(false);
   }
 
+  function updateContourValue(value: number): void {
+    setIsLoadingStateMsg("calculating...");
+
+    const { marchingCube, renderWindow } = context.current;
+    marchingCube.setContourValue(value);
+    renderWindow?.render();
+
+    setIsLoadingStateMsg("");
+  }
+
   return {
     progress,
     loadingStateMsg,
     dicomLength,
     vtkContainerRef,
     context,
+    updateContourValue,
   };
 }

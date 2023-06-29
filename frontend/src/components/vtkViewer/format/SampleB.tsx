@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import useVtkSample from "../hooks/useVtkSampleB";
+import useVtkSampleB from "../hooks/useVtkSampleB";
 
 export default function SampleB() {
-  const { vtkContainerRef, labelClickHandler } = useVtkSample();
+  const { vtkContainerRef, labelClickHandler } = useVtkSampleB();
 
   useEffect(() => {
     vtkContainerRef.current?.setAttribute(

@@ -20,7 +20,7 @@ export default function SampleA() {
         defaultValue={contrast}
         value={contrast}
         max={1}
-        step={0.1}
+        step={0.05}
       />
       <div ref={vtkContainerRef} className="relative overflow-hidden" />
     </div>
