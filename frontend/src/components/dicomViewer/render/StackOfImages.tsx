@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import * as cornerstone from "cornerstone-core";
 
@@ -119,10 +119,9 @@ export default function StackOfImages() {
           <h3 className="h-2 font-semibold">image index</h3>
           {itemSrcArray.map((e, i) => {
             return (
-              <>
-                {i % rowLimit === 0 ? <br key={i + "br"} /> : ""}
+              <Fragment key={e}>
+                {i % rowLimit === 0 ? <br /> : ""}
                 <button
-                  key={e}
                   className={`w-4 h-4 mx-1 rounded-full text-xs ${
                     i === imageIndex ? "bg-cyan-300" : ""
                   }`}
@@ -130,7 +129,7 @@ export default function StackOfImages() {
                 >
                   {i + 1}
                 </button>
-              </>
+              </Fragment>
             );
           })}
         </div>
