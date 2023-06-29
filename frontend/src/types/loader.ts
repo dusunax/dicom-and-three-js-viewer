@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 export type RenderMode = "standard" | "wireframe";
-export type RenderType = "model" | "volume";
+export type RenderType = "model" | "volume" | "sample";
 
 export interface Cmtextures {
   viridis: THREE.Texture;

@@ -63,7 +63,6 @@ export default function ThreeViewer({
     } else {
       currentModeText.setAttribute("style", `background: ${guiConfig.color};`);
     }
-    console.log(document.querySelector(".currentModeText"));
   }, [guiConfig]);
 
   //----------------------------------------------------------------

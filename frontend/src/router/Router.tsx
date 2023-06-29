@@ -15,8 +15,8 @@ export default function Router() {
         <Route path="/" element={<MainPage />} />
 
         <Route path="/view/dicom" element={<DicomPage />} />
-        <Route path="/view/3d/:type" element={<ThreePage />} />
-        <Route path="/view/vtk" element={<VTKPage />} />
+        <Route path="/view/three/:type" element={<ThreePage />} />
+        <Route path="/view/vtk/:type" element={<VTKPage />} />
 
         <Route path="/convertor" element={<Convertor />} />
         <Route path="/convertor/:convert-type" element={<Convertor />} />

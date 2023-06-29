@@ -1,18 +1,13 @@
-import useVtkViewer from "./hooks/useVtkViewer";
+import { RenderType } from "@/types/loader";
 
-export default function VtkViewer() {
-  const { progress, dicomLength, vtkContainerRef, loadingStateMsg } =
-    useVtkViewer();
+import Dcm from "./format/Dcm";
+import Sample from "./format/Sample";
 
+export default function VtkViewer({ renderType }: { renderType: RenderType }) {
   return (
-    <div className="relative">
-      <div className="absolute left-2 top-2">
-        file load: {((progress / dicomLength) * 100).toFixed()} %
-        <br />
-        <span className="animate-pulse">{loadingStateMsg}</span>
-      </div>
-
-      <div ref={vtkContainerRef} />
-    </div>
+    <>
+      {renderType === "volume" && <Dcm />}
+      {renderType === "sample" && <Sample />}
+    </>
   );
 }
