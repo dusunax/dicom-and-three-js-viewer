@@ -6,7 +6,12 @@ import { RGBAColor, RGBColor } from "@kitware/vtk.js/types";
 // type for config
 // --------------------------------
 export type RenderMode = "standard" | "wireframe";
-export type RenderType = "model" | "volume" | "sample-a" | "sample-b";
+export type RenderType =
+  | "model"
+  | "volume"
+  | "sample-a"
+  | "sample-b"
+  | "contour";
 
 export interface Cmtextures {
   viridis: THREE.Texture;

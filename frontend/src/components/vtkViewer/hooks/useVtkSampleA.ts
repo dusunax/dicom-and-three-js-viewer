@@ -129,11 +129,9 @@ export default function useVtkSampleA() {
           setConstarst((prev) => {
             if (prev >= 1) return 1;
             let newValue = +prev + 0.05;
-            console.log(prev, newValue);
 
             volumeActor.getProperty().setAmbient(1 - newValue);
 
-            // renderer.resetCamera();
             renderer.setBackground([newValue, newValue, newValue]);
             renderWindow.render();
 
@@ -146,7 +144,6 @@ export default function useVtkSampleA() {
 
             volumeActor.getProperty().setAmbient(1 - newValue);
 
-            // renderer.resetCamera();
             renderer.setBackground([newValue, newValue, newValue]);
             renderWindow.render();
 

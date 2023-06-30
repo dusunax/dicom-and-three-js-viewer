@@ -21,7 +21,9 @@ import vtkHttpDataSetReader from "@kitware/vtk.js/IO/Core/HttpDataSetReader";
 
 import vtkColorTransferFunction from "@kitware/vtk.js/Rendering/Core/ColorTransferFunction";
 import vtkPiecewiseFunction from "@kitware/vtk.js/Common/DataModel/PiecewiseFunction";
-import vtkColorMaps from "@kitware/vtk.js/Rendering/Core/ColorTransferFunction/ColorMaps";
+import vtkColorMaps, {
+  IColorMapPreset,
+} from "@kitware/vtk.js/Rendering/Core/ColorTransferFunction/ColorMaps";
 
 // @ts-ignore
 import vtkPiecewiseGaussianWidget from "@kitware/vtk.js/Interaction/Widgets/PiecewiseGaussianWidget";
@@ -29,10 +31,12 @@ import vtkCubeSource from "@kitware/vtk.js/Filters/Sources/CubeSource";
 import vtkWidgetManager from "@kitware/vtk.js/Widgets/Core/WidgetManager";
 
 export default function useVtkSampleB() {
-  // const urlToLoad = "models/sample/LIDC2.vti";
   const urlToLoad = "https://kitware.github.io/vtk-js/data/volume/LIDC2.vti";
 
   const [isLoading, setIsLoading] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState<IColorMapPreset | null>(
+    null
+  );
 
   const context = useRef<VtkContext>({});
   const widgetRef = useRef<any | null>();
@@ -48,9 +52,71 @@ export default function useVtkSampleB() {
   const labelContainer = document.querySelector(".label-container");
   const widgetContainer = document.querySelector(".widget-container");
 
+  const piecewiseFunction = vtkPiecewiseFunction.newInstance();
+
+  let presetIndex = 1;
+  let globalDataRange = [0, 255];
+  const lookupTable = vtkColorTransferFunction.newInstance();
+
+  //----------------------------------------------------------------
+  // widget 시작
+  //----------------------------------------------------------------
+  function changePreset(delta = 1) {
+    presetIndex =
+      (presetIndex + delta + vtkColorMaps.rgbPresetNames.length) %
+      vtkColorMaps.rgbPresetNames.length;
+
+    lookupTable.applyColorMap(
+      vtkColorMaps.getPresetByName(vtkColorMaps.rgbPresetNames[presetIndex])
+    );
+
+    lookupTable.setMappingRange(globalDataRange[0], globalDataRange[1]);
+    lookupTable.updateRange();
+
+    setCurrentTheme(
+      vtkColorMaps.getPresetByName(vtkColorMaps.rgbPresetNames[presetIndex])
+    );
+  }
+
+  const intervalID = useRef<NodeJS.Timeout | null>(null);
+
+  function stopInterval() {
+    if (intervalID.current !== null) {
+      clearInterval(intervalID.current);
+      intervalID.current = null;
+    }
+  }
+
+  labelContainer &&
+    labelContainer.addEventListener("click", (event: any) => {
+      if (event.pageX < 200) {
+        stopInterval();
+        changePreset(-1);
+      } else {
+        stopInterval();
+        changePreset(1);
+      }
+    });
+
+  function changePresetByName(name: string) {
+    // intervalID.current && clearInterval(intervalID.current);
+
+    const newColorMap = vtkColorMaps.getPresetByName(name);
+    console.log(newColorMap);
+
+    lookupTable.applyColorMap(newColorMap);
+    lookupTable.setMappingRange(globalDataRange[0], globalDataRange[1]);
+    lookupTable.updateRange();
+
+    setCurrentTheme(newColorMap);
+
+    if (labelContainer)
+      labelContainer.innerHTML = vtkColorMaps.rgbPresetNames[presetIndex];
+  }
+
   const widget = vtkPiecewiseGaussianWidget.newInstance({
     numberOfBins: 256,
-    size: [200, 150],
+    size: [400, 150],
   });
 
   widget.updateStyle({
@@ -71,6 +137,16 @@ export default function useVtkSampleB() {
     padding: 10,
   });
 
+  widget.addGaussian(0.425, 0.5, 0.2, 0.3, 0.2);
+  widget.addGaussian(0.75, 1, 0.3, 0, 0);
+
+  widget.applyOpacity(piecewiseFunction);
+  widget.bindMouseListeners();
+
+  lookupTable.onModified(() => {
+    widget.render();
+  });
+
   // ----------------------------------------------------------------
   // useEffect 시작
   useEffect(() => {
@@ -85,27 +161,7 @@ export default function useVtkSampleB() {
     const renderer = fullScreenRenderer.getRenderer();
     const renderWindow = fullScreenRenderer.getRenderWindow();
 
-    const piecewiseFunction = vtkPiecewiseFunction.newInstance();
-
-    // 위젯
-    fullScreenRenderer.setResizeCallback(
-      ({ width, height }: { width: number; height: number }) => {
-        widget.setSize(450, 150);
-      }
-    );
-    widget.applyOpacity(piecewiseFunction);
-
-    widget.setColorTransferFunction(lookupTable);
-    lookupTable.onModified(() => {
-      widget.render();
-      renderWindow.render();
-    });
-
-    widget.addGaussian(0.425, 0.5, 0.2, 0.3, 0.2);
-    widget.addGaussian(0.75, 1, 0.3, 0, 0);
-
-    widget.bindMouseListeners();
-    widget.setContainer(widgetContainer);
+    renderWindow.getInteractor().setDesiredUpdateRate(15.0);
 
     widget.onAnimation((start: boolean) => {
       if (start) {
@@ -131,32 +187,17 @@ export default function useVtkSampleB() {
 
       volumeActor.setMapper(volumeMapper);
 
-      // create color and opacity transfer functions
-      const ctfun = vtkColorTransferFunction.newInstance();
-      ctfun.addRGBPoint(0, 85 / 255.0, 0, 0);
-      ctfun.addRGBPoint(95, 1.0, 1.0, 1.0);
-      ctfun.addRGBPoint(225, 0.66, 0.66, 0.5);
-      ctfun.addRGBPoint(255, 0.3, 1.0, 0.5);
-
-      const ofun = vtkPiecewiseFunction.newInstance();
-      ofun.addPoint(0.0, 0.0);
-      ofun.addPoint(255.0, 1.0);
-      volumeActor.getProperty().setRGBTransferFunction(0, ctfun);
-      volumeActor.getProperty().setScalarOpacity(0, ofun);
-      volumeActor.getProperty().setScalarOpacityUnitDistance(0, 3.0);
-      volumeActor.getProperty().setInterpolationTypeToLinear();
-      volumeActor.getProperty().setUseGradientOpacity(0, true);
-      volumeActor.getProperty().setGradientOpacityMinimumValue(0, 2);
-      volumeActor.getProperty().setGradientOpacityMinimumOpacity(0, 0.0);
-      volumeActor.getProperty().setGradientOpacityMaximumValue(0, 20);
-      volumeActor.getProperty().setGradientOpacityMaximumOpacity(0, 1.0);
-      volumeActor.getProperty().setShade(true);
-      volumeActor.getProperty().setAmbient(0.2);
-      volumeActor.getProperty().setDiffuse(0.7);
-      volumeActor.getProperty().setSpecular(0.3);
-      volumeActor.getProperty().setSpecularPower(8.0);
-
       volumeMapper.setInputConnection(reader.getOutputPort());
+
+      lookupTable.onModified(() => {
+        renderWindow.render();
+
+        if (widgetContainer && widgetContainer?.children.length !== 0) {
+          widgetContainer.innerHTML = ""; // 자식 요소 제거
+        }
+        widget.setContainer(widgetContainer);
+        widget.setColorTransferFunction(lookupTable);
+      });
 
       try {
         await reader.setUrl(urlToLoad);
@@ -164,56 +205,50 @@ export default function useVtkSampleB() {
       } catch (err) {
         console.log(err);
       } finally {
-        // renderer.delete();
+        const imageData = reader.getOutputData();
+        const dataArray = imageData.getPointData().getScalars();
+        const dataRange = dataArray.getRange();
+
         renderer.addVolume(volumeActor);
+        globalDataRange[0] = dataRange[0];
+        globalDataRange[1] = dataRange[1];
 
-        const interactor = renderWindow.getInteractor();
-        interactor.setDesiredUpdateRate(15.0);
+        changePreset();
+        if (intervalID.current === null)
+          intervalID.current = setInterval(changePreset, 3000);
 
+        widget.setDataArray(dataArray.getData());
+        widget.applyOpacity(piecewiseFunction);
+
+        widget.setColorTransferFunction(lookupTable);
+        lookupTable.onModified(() => {
+          widget.render();
+          renderWindow.render();
+        });
+
+        renderer.addVolume(volumeActor);
         renderer.resetCamera();
         renderer.getActiveCamera().elevation(70);
         renderWindow.render();
       }
+
+      volumeActor.setMapper(volumeMapper);
+      volumeMapper.setInputConnection(reader.getOutputPort());
+
+      volumeActor.getProperty().setRGBTransferFunction(0, lookupTable);
+      volumeActor.getProperty().setScalarOpacity(0, piecewiseFunction);
+      volumeActor.getProperty().setInterpolationTypeToFastLinear();
     })();
   }, []);
 
-  //----------------------------------------------------------------
-  // widget 기능
-  //----------------------------------------------------------------
-  let presetIndex = 1;
-  let globalDataRange = [0, 255];
-  const lookupTable = vtkColorTransferFunction.newInstance();
-
-  function changePreset(delta = 1) {
-    presetIndex =
-      (presetIndex + delta + vtkColorMaps.rgbPresetNames.length) %
-      vtkColorMaps.rgbPresetNames.length;
-    lookupTable.applyColorMap(
-      vtkColorMaps.getPresetByName(vtkColorMaps.rgbPresetNames[presetIndex])
-    );
-    lookupTable.setMappingRange(globalDataRange[0], globalDataRange[1]);
-    lookupTable.updateRange();
-    if (labelContainer)
-      labelContainer.innerHTML = vtkColorMaps.rgbPresetNames[presetIndex];
-  }
-
-  let intervalID: NodeJS.Timeout | null = null;
-  function stopInterval() {
-    if (intervalID !== null) {
-      clearInterval(intervalID);
-      intervalID = null;
-    }
-  }
-
-  function labelClickHandler(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if (e.pageX < 200) {
-      stopInterval();
-      changePreset(-1);
-    } else {
-      stopInterval();
-      changePreset(1);
-    }
-  }
-
-  return { vtkContainerRef, context, labelClickHandler };
+  return {
+    vtkContainerRef,
+    context,
+    // labelClickHandler,
+    widgetRef,
+    currentTheme,
+    intervalID,
+    vtkColorMaps,
+    changePresetByName,
+  };
 }

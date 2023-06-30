@@ -17,9 +17,9 @@ export default function Header() {
   const navLinks = [
     { pathname: "/view/dicom", label: "DICOM" },
     { pathname: "/view/three/model", label: "3D" },
-    { pathname: "/view/vtk/volume", label: "Contour" },
+    { pathname: "/view/vtk/contour", label: "Contour" },
     { pathname: "/view/vtk/sample-a", label: "Volume A" },
-    // { pathname: "/view/vtk/sample-b", label: "Volume B" },
+    { pathname: "/view/vtk/sample-b", label: "Volume B" },
     // { pathname: "/convertor", label: "convertor" },
   ];
 

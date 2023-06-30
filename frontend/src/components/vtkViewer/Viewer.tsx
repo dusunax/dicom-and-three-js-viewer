@@ -7,7 +7,7 @@ import SampleB from "./format/SampleB";
 export default function VtkViewer({ renderType }: { renderType: RenderType }) {
   return (
     <>
-      {renderType === "volume" && <Dcm />}
+      {renderType === "contour" && <Dcm />}
       {renderType === "sample-a" && <SampleA />}
       {renderType === "sample-b" && <SampleB />}
     </>
