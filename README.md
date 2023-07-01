@@ -12,6 +12,7 @@
 - Cornerstone Tools [230603 - Refactor Components and Hook, Finish Tool Selection Box](https://github.com/dusunax/dicom-and-three-js-viewer/issues/2)
 - refactoring | 중간 정리: [230607 - Configure router & layout, re-add Three.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/4)
 - feature improve: [230628 - Bugfix & Improve DICOM viewer feature](https://github.com/dusunax/dicom-and-three-js-viewer/issues/16)
+- Vtk.js: Contouring [230627 - Volume rendering with vtk.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/15)
 
 ### [2. Render 3D file](https://github.com/dusunax/dicom-and-three-js-viewer/issues/5)
 
@@ -24,4 +25,3 @@
 
 ### [3. Volume Rendering](https://github.com/dusunax/dicom-and-three-js-viewer/issues/12)
 
-- Vtk.js: Contouring [230627 - Volume rendering with vtk.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/15)
