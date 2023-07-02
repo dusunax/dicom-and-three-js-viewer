@@ -14,6 +14,8 @@
 - feature improve: [230628 - Bugfix & Improve DICOM viewer feature](https://github.com/dusunax/dicom-and-three-js-viewer/issues/16)
 - Vtk.js: Contouring [230627 - Volume rendering with vtk.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/15)
 
+<img src="https://github.com/dusunax/dicom-and-three-js-viewer/assets/94776135/ca683bc0-5488-4d8b-987d-e13ce96db914" width="450px" />
+
 ### [2. Render 3D file](https://github.com/dusunax/dicom-and-three-js-viewer/issues/5)
 
 - Three.js: rendering [230610 - ThreeJS Viewer](https://github.com/dusunax/dicom-and-three-js-viewer/issues/6)
@@ -23,5 +25,9 @@
 - refactoring | 중간 정리: [230624 - Custom hook refactor: ply viewer](https://github.com/dusunax/dicom-and-three-js-viewer/issues/13)
 - dat.GUI: [230625 - Add dat.GUI](https://github.com/dusunax/dicom-and-three-js-viewer/issues/14)
 
+<img src="https://github.com/dusunax/dicom-and-three-js-viewer/assets/94776135/0fb570ab-5bd5-4a8c-9b16-51f3432f3ba0" width="450px" />
+
 ### [3. Volume Rendering](https://github.com/dusunax/dicom-and-three-js-viewer/issues/12)
 
+- Vtk.js: Render `.vti` volume samples [230628~29 - Volume rendering with vtk.js](https://github.com/dusunax/dicom-and-three-js-viewer/issues/17)
+<img src="https://github.com/dusunax/dicom-and-three-js-viewer/assets/94776135/cb290815-338f-477a-a72e-5e61d2e4f8af" width="450px" />
